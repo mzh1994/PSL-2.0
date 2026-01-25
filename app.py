@@ -257,8 +257,11 @@ st.markdown(
 f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
-html, body, [class*="css"] {{ font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }}
+html, body, [class*="css"] {{
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}}
 
+/* ====== Background ====== */
 .stApp {{
   background:
     radial-gradient(1200px 700px at 50% -10%, rgba(122,162,255,0.30), rgba(0,0,0,0) 55%),
@@ -270,7 +273,14 @@ html, body, [class*="css"] {{ font-family: 'Inter', system-ui, -apple-system, Se
   background-attachment: fixed;
 }}
 
-.block-container {{ padding-top: 86px; max-width: 1320px; }}
+/* ====== Fix left-right space ====== */
+.block-container {{
+  padding-top: 86px !important;
+  max-width: 1600px !important;     /* wider than 1320 */
+  padding-left: 1.1rem !important;
+  padding-right: 1.1rem !important;
+}}
+
 header[data-testid="stHeader"] {{ background: transparent; }}
 div[data-testid="stToolbar"] {{ visibility:hidden; height:0px; }}
 
@@ -278,7 +288,7 @@ div[data-testid="stToolbar"] {{ visibility:hidden; height:0px; }}
 section[data-testid="stSidebar"] {{ display:none !important; }}
 button[kind="header"][data-testid="collapsedControl"] {{ display:none !important; }}
 
-/* Topbar */
+/* ====== Topbar ====== */
 .topbar {{
   position: fixed; top:0; left:0; right:0; z-index:999;
   height:60px; display:flex; align-items:center;
@@ -299,6 +309,7 @@ button[kind="header"][data-testid="collapsedControl"] {{ display:none !important
   letter-spacing: 0.2px;
 }}
 
+/* ====== Container Cards ====== */
 div[data-testid="stVerticalBlockBorderWrapper"] {{
   background: rgba(255,255,255,0.10);
   border: 1px solid rgba(255,255,255,0.16);
@@ -315,15 +326,16 @@ div[data-testid="stVerticalBlockBorderWrapper"] {{
 
 h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
 
-/* ---------- TEAM TILE ---------- */
-.tile{{
+/* =========================
+   TEAM TILE (Compact + Clean)
+   ========================= */
+.tile {{
+  position: relative;                 /* IMPORTANT: fixes ::before band location */
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 18px;
-  padding: 12px;
+  border-radius: 16px;
+  padding: 10px;
   text-align: center;
-  min-height: 0px;          /* IMPORTANT: remove forced height */
-  display: block;           /* IMPORTANT: no flex spacing */
   overflow: hidden;
 }}
 
@@ -332,45 +344,54 @@ h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
   box-shadow: 0 18px 60px rgba(0,0,0,0.30);
 }}
 
-/* Top band (always subtle) */
+/* Top band */
 .tile::before {{
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 14px;
+  height: 10px;
   background: rgba(255,255,255,0.10);
 }}
 
+/* Selected tile */
 .tileSelected {{
   border: 2px solid rgba(255,122,217,0.95) !important;
   box-shadow: 0 22px 70px rgba(255,122,217,0.22);
   background: rgba(255,122,217,0.12);
 }}
 
-/* Selected top band fill (the thing you asked) */
 .tileSelected::before {{
   background: linear-gradient(90deg, rgba(122,162,255,0.95), rgba(255,122,217,0.95));
-  height: 16px;
+  height: 12px;
 }}
 
-/* Logo container + top border highlight */
+/* Logo area (smaller) */
 .logoBox {{
-  border-radius: 14px;
-  padding: 8px;
-  background: rgba(0,0,0,0.12);
+  border-radius: 12px;
+  padding: 6px;
+  background: rgba(0,0,0,0.10);
   border-top: 3px solid rgba(255,255,255,0.14);
 }}
+
 .tileSelected .logoBox {{
-  border-top: 3px solid rgba(255,122,217,0.95);  /* highlight only top border */
-  background: rgba(255,122,217,0.10);           /* slight fill so user KNOWS selected */
+  border-top: 3px solid rgba(255,122,217,0.95);
+  background: rgba(255,122,217,0.10);
 }}
 
+/* Make logos smaller (prevents tall tiles) */
+.tile img {{
+  max-height: 95px !important;
+  object-fit: contain !important;
+}}
+
+/* Team name smaller + tighter */
 .tileName {{
-  margin-top: 10px;
+  margin-top: 6px;
   font-weight: 900;
   color: rgba(245,247,255,0.95);
-  font-size: 12px;
-  min-height: 34px;
+  font-size: 11px;
+  line-height: 1.1;
+  min-height: 22px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -378,22 +399,22 @@ h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
 
 .selBadge {{
   display:inline-block;
-  margin-top: 8px;
-  padding: 6px 10px;
+  margin-top: 6px;
+  padding: 4px 8px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 900;
   color: rgba(245,247,255,0.94);
   background: rgba(122,162,255,0.22);
   border: 1px solid rgba(122,162,255,0.65);
 }}
 
-/* Invisible click button: cover full tile area */
-/* clean tiny select button */
-.tileBtn .stButton > button{{
+/* Button compact */
+.tileBtn .stButton > button {{
   width: 100% !important;
-  border-radius: 12px !important;
-  padding: 8px 10px !important;
+  border-radius: 10px !important;
+  padding: 6px 8px !important;
+  font-size: 12px !important;
   font-weight: 900 !important;
   border: 1px solid rgba(255,255,255,0.18) !important;
   background: rgba(255,255,255,0.14) !important;
@@ -401,18 +422,13 @@ h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
   box-shadow: none !important;
 }}
 
-.tileBtn .stButton > button:hover{{
+.tileBtn .stButton > button:hover {{
   background: rgba(255,255,255,0.20) !important;
 }}
 
-/* selected state: more obvious */
-.tileSelected{{
-  border: 2px solid rgba(255,122,217,0.95) !important;
-  background: rgba(255,122,217,0.14) !important;
-}}
-
-
-/* ---------- PREDICTION CARD ---------- */
+/* =========================
+   PREDICTION CARD
+   ========================= */
 .predCard {{
   padding: 18px;
   border-radius: 18px;
@@ -447,6 +463,7 @@ h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
 """,
 unsafe_allow_html=True
 )
+
 
 # ----------------------------
 # UI: Team tiles (full-tile click, no select button text)
