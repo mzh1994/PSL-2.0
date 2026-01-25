@@ -1,3 +1,17 @@
+# app.py  (PSL 2.0 AI Match Predictor)
+# ---------------------------------------------------------
+# End-to-end working Streamlit app with:
+# - Background image (assets/bg.jpg)
+# - Brand logo in top bar (assets/PSL brand.jpg)
+# - Clean Team tiles with selection highlight (top band + subtle fill)
+# - Team A vs Team B divider line
+# - Go -> Playing XI -> Predict flow
+# - Player stats popover per team with bar chart + value labels (Altair)
+# - Premium prediction cards with vibrant colors
+# - Footer (Created by IT Digitalization Team...)
+# - Sidebar/collapsed control hidden
+# ---------------------------------------------------------
+
 import os, base64
 import numpy as np
 import pandas as pd
@@ -249,6 +263,8 @@ def build_player_ratings_and_components():
 
 # ----------------------------
 # UI Styling
+# IMPORTANT: keep CSS inside a Python f-string (triple quotes) only.
+# If you ever see NameError: background/width ... it means CSS leaked outside the string.
 # ----------------------------
 bg_b64 = file_to_base64(BG_IMAGE)
 brand_b64 = file_to_base64(BRAND_IMAGE)
@@ -261,7 +277,6 @@ html, body, [class*="css"] {{
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }}
 
-/* ====== Background ====== */
 .stApp {{
   background:
     radial-gradient(1200px 700px at 50% -10%, rgba(122,162,255,0.30), rgba(0,0,0,0) 55%),
@@ -273,14 +288,11 @@ html, body, [class*="css"] {{
   background-attachment: fixed;
 }}
 
-/* ====== Fix left-right space ====== */
+/* layout */
 .block-container {{
-  padding-top: 86px !important;
-  max-width: 1600px !important;     /* wider than 1320 */
-  padding-left: 1.1rem !important;
-  padding-right: 1.1rem !important;
+  padding-top: 86px;
+  max-width: 1400px;   /* reduce side empty space */
 }}
-
 header[data-testid="stHeader"] {{ background: transparent; }}
 div[data-testid="stToolbar"] {{ visibility:hidden; height:0px; }}
 
@@ -288,7 +300,7 @@ div[data-testid="stToolbar"] {{ visibility:hidden; height:0px; }}
 section[data-testid="stSidebar"] {{ display:none !important; }}
 button[kind="header"][data-testid="collapsedControl"] {{ display:none !important; }}
 
-/* ====== Topbar ====== */
+/* Topbar */
 .topbar {{
   position: fixed; top:0; left:0; right:0; z-index:999;
   height:60px; display:flex; align-items:center;
@@ -309,7 +321,7 @@ button[kind="header"][data-testid="collapsedControl"] {{ display:none !important
   letter-spacing: 0.2px;
 }}
 
-/* ====== Container Cards ====== */
+/* bordered containers */
 div[data-testid="stVerticalBlockBorderWrapper"] {{
   background: rgba(255,255,255,0.10);
   border: 1px solid rgba(255,255,255,0.16);
@@ -318,19 +330,29 @@ div[data-testid="stVerticalBlockBorderWrapper"] {{
   backdrop-filter: blur(14px);
 }}
 
+/* text */
 .small {{
   color: rgba(235,242,255,0.92);
   font-size: 10.5px;
   margin-top: -6px;
 }}
+h1,h2,h3,h4 {{
+  color: rgba(245,247,255,0.98) !important;
+}}
 
-h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
+/* TEAM DIVIDER LINE */
+.teamDivider {{
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.0), rgba(255,255,255,0.18), rgba(255,255,255,0.0));
+  margin: 0 auto;
+  border-radius: 999px;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.08));
+}}
 
-/* =========================
-   TEAM TILE (Compact + Clean)
-   ========================= */
+/* TEAM TILE */
 .tile {{
-  position: relative;                 /* IMPORTANT: fixes ::before band location */
+  position: relative;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.16);
   border-radius: 16px;
@@ -338,60 +360,49 @@ h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
   text-align: center;
   overflow: hidden;
 }}
-
 .tile:hover {{
   transform: translateY(-2px);
   box-shadow: 0 18px 60px rgba(0,0,0,0.30);
 }}
 
-/* Top band */
+/* Top band always subtle */
 .tile::before {{
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 10px;
+  height: 12px;
   background: rgba(255,255,255,0.10);
 }}
 
-/* Selected tile */
+/* selected tile */
 .tileSelected {{
   border: 2px solid rgba(255,122,217,0.95) !important;
-  box-shadow: 0 22px 70px rgba(255,122,217,0.22);
+  box-shadow: 0 22px 70px rgba(255,122,217,0.20);
   background: rgba(255,122,217,0.12);
 }}
-
 .tileSelected::before {{
   background: linear-gradient(90deg, rgba(122,162,255,0.95), rgba(255,122,217,0.95));
-  height: 12px;
+  height: 14px;
 }}
 
-/* Logo area (smaller) */
 .logoBox {{
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 6px;
-  background: rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.12);
   border-top: 3px solid rgba(255,255,255,0.14);
 }}
-
 .tileSelected .logoBox {{
   border-top: 3px solid rgba(255,122,217,0.95);
   background: rgba(255,122,217,0.10);
 }}
 
-/* Make logos smaller (prevents tall tiles) */
-.tile img {{
-  max-height: 95px !important;
-  object-fit: contain !important;
-}}
-
-/* Team name smaller + tighter */
 .tileName {{
-  margin-top: 6px;
+  margin-top: 8px;
   font-weight: 900;
   color: rgba(245,247,255,0.95);
-  font-size: 11px;
-  line-height: 1.1;
-  min-height: 22px;
+  font-size: 11.5px;   /* slightly smaller */
+  line-height: 1.15;
+  min-height: 30px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -400,43 +411,54 @@ h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
 .selBadge {{
   display:inline-block;
   margin-top: 6px;
-  padding: 4px 8px;
+  padding: 5px 9px;
   border-radius: 999px;
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 900;
   color: rgba(245,247,255,0.94);
   background: rgba(122,162,255,0.22);
   border: 1px solid rgba(122,162,255,0.65);
 }}
 
-/* Button compact */
+/* tile select button (compact, consistent height) */
 .tileBtn .stButton > button {{
   width: 100% !important;
-  border-radius: 10px !important;
-  padding: 6px 8px !important;
-  font-size: 12px !important;
+  border-radius: 12px !important;
+  padding: 8px 10px !important;
   font-weight: 900 !important;
   border: 1px solid rgba(255,255,255,0.18) !important;
-  background: rgba(255,255,255,0.14) !important;
+  background: rgba(10,16,30,0.35) !important;
   color: rgba(245,247,255,0.96) !important;
   box-shadow: none !important;
 }}
-
 .tileBtn .stButton > button:hover {{
-  background: rgba(255,255,255,0.20) !important;
+  background: rgba(255,255,255,0.18) !important;
 }}
 
-/* =========================
-   PREDICTION CARD
-   ========================= */
+/* primary buttons */
+.stButton > button {{
+  border-radius: 14px !important;
+  font-weight: 900 !important;
+}}
+button[kind="primary"] {{
+  color: #071021 !important;
+  background: linear-gradient(135deg, #7aa2ff 0%, #ff7ad9 100%) !important;
+  border: 0 !important;
+}}
+
+/* Prediction card */
 .predCard {{
   padding: 18px;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.16);
   background: rgba(255,255,255,0.12);
 }}
-.predHead {{ display:flex; align-items:baseline; justify-content:space-between; gap: 12px; }}
-.predTeam {{ font-weight: 900; font-size: 16px; color: rgba(245,247,255,0.98); }}
+.predHead {{
+  display:flex; align-items:baseline; justify-content:space-between; gap: 12px;
+}}
+.predTeam {{
+  font-weight: 900; font-size: 16px; color: rgba(245,247,255,0.98);
+}}
 .predTag {{
   font-size: 11px; font-weight: 900;
   padding: 6px 10px; border-radius: 999px;
@@ -444,14 +466,39 @@ h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
   background: rgba(255,255,255,0.10);
   color: rgba(245,247,255,0.92);
 }}
-.predPct {{ font-weight: 900; font-size: 46px; line-height: 1.0; margin-top: 8px; }}
+.predPct {{
+  font-weight: 900; font-size: 46px; line-height: 1.0; margin-top: 8px;
+}}
 .predBar {{
   height: 12px; border-radius: 999px;
   background: rgba(255,255,255,0.10);
   border: 1px solid rgba(255,255,255,0.14);
   overflow: hidden; margin-top: 12px;
 }}
-.predFill {{ height: 100%; border-radius: 999px; }}
+.predFill {{
+  height: 100%; border-radius: 999px;
+}}
+
+/* Footer */
+.appFooter {{
+  margin-top: 40px;
+  padding: 18px 10px;
+  text-align: center;
+  font-size: 11.5px;
+  color: rgba(235,242,255,0.75);
+  border-top: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+}}
+.appFooter strong {{
+  color: rgba(245,247,255,0.95);
+  font-weight: 800;
+}}
+.appFooter .copyright {{
+  margin-top: 4px;
+  font-size: 10.5px;
+  color: rgba(220,230,255,0.65);
+}}
 </style>
 
 <div class="topbar">
@@ -464,9 +511,8 @@ h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
 unsafe_allow_html=True
 )
 
-
 # ----------------------------
-# UI: Team tiles (full-tile click, no select button text)
+# UI: Team tiles
 # ----------------------------
 def team_tile_grid(title, teams, selected_key):
     st.markdown(f"### {title}")
@@ -482,7 +528,6 @@ def team_tile_grid(title, teams, selected_key):
             logo = get_logo(t)
 
             st.markdown(f'<div class="{tile_class}">', unsafe_allow_html=True)
-
             st.markdown('<div class="logoBox">', unsafe_allow_html=True)
             if logo:
                 st.image(logo, use_container_width=True)
@@ -498,7 +543,6 @@ def team_tile_grid(title, teams, selected_key):
             st.markdown('</div>', unsafe_allow_html=True)
 
             st.markdown("</div>", unsafe_allow_html=True)
-
 
 # ----------------------------
 # Player stats popover + chart (labels)
@@ -577,7 +621,7 @@ def xi_editor(team_name, squad, ratings_df, state_key, comp_df):
     return chosen
 
 # ----------------------------
-# Prediction card UI
+# Prediction cards
 # ----------------------------
 def pred_theme(pct):
     if pct >= 65:
@@ -617,10 +661,13 @@ teams = sorted(squads_df["Team"].unique().tolist())
 with st.container(border=True):
     st.subheader("Team Selection")
 
-    cA, cB = st.columns(2)
-    with cA:
+    # Team A | divider | Team B
+    colA, colMid, colB = st.columns([1, 0.045, 1], vertical_alignment="top")
+    with colA:
         team_tile_grid("Team A", teams, "team_a")
-    with cB:
+    with colMid:
+        st.markdown('<div class="teamDivider"></div>', unsafe_allow_html=True)
+    with colB:
         team_tile_grid("Team B", teams, "team_b")
 
     sel_a = st.session_state.get("team_a")
@@ -708,3 +755,18 @@ if st.session_state.go_done:
             prediction_card(team_a, pctA, sA)
         with c2:
             prediction_card(team_b, pctB, sB)
+
+# ----------------------------
+# Footer
+# ----------------------------
+st.markdown(
+    """
+    <div class="appFooter">
+        Created by <strong>IT Digitalization Team</strong> (Arman Bari &amp; M Zohaib Hassan)
+        <div class="copyright">
+            © 2026 PSL 2.0. All rights reserved.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
