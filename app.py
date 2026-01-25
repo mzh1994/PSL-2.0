@@ -51,8 +51,11 @@ PROB_SCALE = 3.2
 # Helpers
 # ----------------------------
 def file_to_base64(path: str) -> str:
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
+    try:
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    except:
+        return ""
 
 def to_num(x):
     try:
@@ -247,8 +250,8 @@ def build_player_ratings_and_components():
 # ----------------------------
 # UI Styling
 # ----------------------------
-bg_b64 = file_to_base64(BG_IMAGE) if os.path.exists(BG_IMAGE) else ""
-brand_b64 = file_to_base64(BRAND_IMAGE) if os.path.exists(BRAND_IMAGE) else ""
+bg_b64 = file_to_base64(BG_IMAGE)
+brand_b64 = file_to_base64(BRAND_IMAGE)
 
 st.markdown(
 f"""
@@ -258,8 +261,8 @@ html, body, [class*="css"] {{ font-family: 'Inter', system-ui, -apple-system, Se
 
 .stApp {{
   background:
-    radial-gradient(1200px 700px at 50% -10%, rgba(122,162,255,0.26), rgba(0,0,0,0) 55%),
-    radial-gradient(900px 600px at 90% 20%, rgba(255,122,217,0.22), rgba(0,0,0,0) 55%),
+    radial-gradient(1200px 700px at 50% -10%, rgba(122,162,255,0.30), rgba(0,0,0,0) 55%),
+    radial-gradient(900px 600px at 90% 20%, rgba(255,122,217,0.26), rgba(0,0,0,0) 55%),
     linear-gradient(180deg, rgba(6,10,22,0.55) 0%, rgba(6,10,22,0.82) 55%, rgba(6,10,22,0.93) 100%),
     url("data:image/jpg;base64,{bg_b64}");
   background-size: cover;
@@ -267,28 +270,30 @@ html, body, [class*="css"] {{ font-family: 'Inter', system-ui, -apple-system, Se
   background-attachment: fixed;
 }}
 
-.block-container {{ padding-top: 82px; max-width: 1320px; }}
+.block-container {{ padding-top: 86px; max-width: 1320px; }}
 header[data-testid="stHeader"] {{ background: transparent; }}
 div[data-testid="stToolbar"] {{ visibility:hidden; height:0px; }}
 
-/* top bar */
+/* Hide sidebar + collapse arrow */
+section[data-testid="stSidebar"] {{ display:none !important; }}
+button[kind="header"][data-testid="collapsedControl"] {{ display:none !important; }}
+
+/* Topbar */
 .topbar {{
   position: fixed; top:0; left:0; right:0; z-index:999;
-  height:60px; display:flex; align-items:center; justify-content:space-between;
+  height:60px; display:flex; align-items:center;
   padding: 0 18px;
   background: rgba(255,255,255,0.07);
   border-bottom: 1px solid rgba(255,255,255,0.14);
   backdrop-filter: blur(14px);
 }}
-.brandWrap {{
-  display:flex; align-items:center; gap:12px;
-}}
+.brandWrap {{ display:flex; align-items:center; gap:12px; }}
 .brandImg {{
   height: 44px; width:auto; display:block;
   filter: drop-shadow(0 10px 24px rgba(0,0,0,0.55));
 }}
 .appTitle {{
-  color: rgba(245,247,255,0.95);
+  color: rgba(245,247,255,0.98);
   font-weight: 900;
   font-size: 16px;
   letter-spacing: 0.2px;
@@ -303,120 +308,125 @@ div[data-testid="stVerticalBlockBorderWrapper"] {{
 }}
 
 .small {{
-  color: rgba(226,235,255,0.88);
-  font-size: 11px;
+  color: rgba(235,242,255,0.92);
+  font-size: 10.5px;
+  margin-top: -6px;
 }}
 
-h1,h2,h3,h4 {{
-  color: rgba(245,247,255,0.97) !important;
-}}
+h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
 
-.stButton > button {{
-  border-radius: 14px !important;
-  padding: 11px 14px !important;
-  font-weight: 900 !important;
-  border: 0 !important;
-  color: #071021 !important;
-  background: linear-gradient(135deg, #ffffff 0%, #dfe7ff 60%, #ffd7f1 100%) !important;
-  box-shadow: 0 14px 34px rgba(0,0,0,0.28) !important;
-}}
-button[kind="primary"] {{
-  color: #071021 !important;
-  background: linear-gradient(135deg, #7aa2ff 0%, #ff7ad9 100%) !important;
-}}
-
-/* Tile */
+/* ---------- TEAM TILE ---------- */
 .tile {{
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.15);
+  position: relative;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.16);
   border-radius: 18px;
-  padding: 10px;
+  padding: 12px;
   text-align: center;
-  transition: transform .10s ease, box-shadow .10s ease, border-color .10s ease;
+  min-height: 255px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+  overflow: hidden;
 }}
 .tile:hover {{
   transform: translateY(-2px);
   box-shadow: 0 18px 60px rgba(0,0,0,0.30);
 }}
-.tileSelected {{
-  border: 2px solid rgba(122,162,255,0.95) !important;
-  box-shadow: 0 22px 70px rgba(122,162,255,0.22);
-}}
-.tileName {{
-  margin-top: 8px;
-  font-weight: 900;
-  color: rgba(245,247,255,0.93);
-  font-size: 12px;
+
+/* Top band (always subtle) */
+.tile::before {{
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 14px;
+  background: rgba(255,255,255,0.10);
 }}
 
-/* Remove the "blank bar" area from the invisible buttons completely */
-.tileBtn button {{
-  background: transparent !important;
+.tileSelected {{
+  border: 2px solid rgba(255,122,217,0.95) !important;
+  box-shadow: 0 22px 70px rgba(255,122,217,0.22);
+  background: rgba(255,122,217,0.12);
+}}
+
+/* Selected top band fill (the thing you asked) */
+.tileSelected::before {{
+  background: linear-gradient(90deg, rgba(122,162,255,0.95), rgba(255,122,217,0.95));
+  height: 16px;
+}}
+
+/* Logo container + top border highlight */
+.logoBox {{
+  border-radius: 14px;
+  padding: 8px;
+  background: rgba(0,0,0,0.12);
+  border-top: 3px solid rgba(255,255,255,0.14);
+}}
+.tileSelected .logoBox {{
+  border-top: 3px solid rgba(255,122,217,0.95);  /* highlight only top border */
+  background: rgba(255,122,217,0.10);           /* slight fill so user KNOWS selected */
+}}
+
+.tileName {{
+  margin-top: 10px;
+  font-weight: 900;
+  color: rgba(245,247,255,0.95);
+  font-size: 12px;
+  min-height: 34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}}
+
+.selBadge {{
+  display:inline-block;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  color: rgba(245,247,255,0.94);
+  background: rgba(122,162,255,0.22);
+  border: 1px solid rgba(122,162,255,0.65);
+}}
+
+/* Invisible click button: cover full tile area */
+.tileClickWrap .stButton > button {{
+  width: 100% !important;
+  height: 255px !important;
+  opacity: 0 !important;
   border: none !important;
   box-shadow: none !important;
-  color: transparent !important;
+  background: transparent !important;
   padding: 0 !important;
-  height: 0px !important;
-  min-height: 0px !important;
-  margin: 0 !important;
-  line-height: 0 !important;
-}}
-.tileBtn {{
-  height: 0px !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin-top: -255px !important;  /* overlay */
 }}
 
-/* Make the whole tile look clickable even without visible button */
-.tileHint {{
-  margin-top: 6px;
-  font-size: 10px;
-  color: rgba(220,230,255,0.60);
-}}
-
+/* ---------- PREDICTION CARD ---------- */
 .predCard {{
   padding: 18px;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.16);
-  background: rgba(255,255,255,0.11);
+  background: rgba(255,255,255,0.12);
 }}
-.predHead {{
-  display:flex; align-items:baseline; justify-content:space-between;
-  gap: 12px;
-}}
-.predTeam {{
-  font-weight: 900;
-  font-size: 16px;
-  color: rgba(245,247,255,0.96);
-}}
+.predHead {{ display:flex; align-items:baseline; justify-content:space-between; gap: 12px; }}
+.predTeam {{ font-weight: 900; font-size: 16px; color: rgba(245,247,255,0.98); }}
 .predTag {{
-  font-size: 11px;
-  font-weight: 900;
-  padding: 6px 10px;
-  border-radius: 999px;
+  font-size: 11px; font-weight: 900;
+  padding: 6px 10px; border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.18);
   background: rgba(255,255,255,0.10);
   color: rgba(245,247,255,0.92);
 }}
-.predPct {{
-  font-weight: 900;
-  font-size: 46px;
-  line-height: 1.0;
-  margin-top: 8px;
-  color: rgba(245,247,255,0.96);
-}}
+.predPct {{ font-weight: 900; font-size: 46px; line-height: 1.0; margin-top: 8px; }}
 .predBar {{
-  height: 12px;
-  border-radius: 999px;
+  height: 12px; border-radius: 999px;
   background: rgba(255,255,255,0.10);
   border: 1px solid rgba(255,255,255,0.14);
-  overflow: hidden;
-  margin-top: 12px;
+  overflow: hidden; margin-top: 12px;
 }}
-.predFill {{
-  height: 100%;
-  border-radius: 999px;
-}}
+.predFill {{ height: 100%; border-radius: 999px; }}
 </style>
 
 <div class="topbar">
@@ -430,42 +440,42 @@ unsafe_allow_html=True
 )
 
 # ----------------------------
-# Team Picker (no ugly bars, strong highlight)
-# NOTE: Streamlit still needs a clickable element.
-# We keep st.button but hide its layout (height=0). Click happens by clicking the logo+name area
-# using a normal visible button is the only perfectly reliable way. So: we use a tiny button in code,
-# and we also allow clicking the logo (via a normal button placed directly under it but hidden).
+# UI: Team tiles (full-tile click, no select button text)
 # ----------------------------
 def team_tile_grid(title, teams, selected_key):
     st.markdown(f"### {title}")
-    st.markdown('<div class="small">Click a logo to select.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="small">Click a logo to select</div>', unsafe_allow_html=True)
 
     cols = st.columns(4)
     for i, t in enumerate(teams):
         with cols[i % 4]:
             selected = (st.session_state.get(selected_key) == t)
             tile_class = "tile tileSelected" if selected else "tile"
-            st.markdown(f'<div class="{tile_class}">', unsafe_allow_html=True)
+            badge_html = '<div class="selBadge">Selected</div>' if selected else ""
 
             logo = get_logo(t)
+
+            st.markdown(f'<div class="{tile_class}">', unsafe_allow_html=True)
+
+            # logo block
+            st.markdown('<div class="logoBox">', unsafe_allow_html=True)
             if logo:
                 st.image(logo, use_container_width=True)
             else:
                 st.caption("Logo missing")
-
-            st.markdown(f'<div class="tileName">{t}</div>', unsafe_allow_html=True)
-            st.markdown('<div class="tileHint">Click to select</div>', unsafe_allow_html=True)
-
-            # Hidden button (no bars now)
-            st.markdown('<div class="tileBtn">', unsafe_allow_html=True)
-            if st.button("select", key=f"{selected_key}_{t}"):
-                st.session_state[selected_key] = t
             st.markdown('</div>', unsafe_allow_html=True)
 
+            st.markdown(f'<div class="tileName">{t}</div>{badge_html}', unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+
+            # Full-tile invisible click overlay
+            st.markdown('<div class="tileClickWrap">', unsafe_allow_html=True)
+            if st.button("", key=f"{selected_key}_{t}"):
+                st.session_state[selected_key] = t
             st.markdown("</div>", unsafe_allow_html=True)
 
 # ----------------------------
-# Player stats with labels (Altair)
+# Player stats popover + chart (labels)
 # ----------------------------
 def stats_chart_with_labels(player, comp_df):
     if player not in comp_df.index:
@@ -474,10 +484,6 @@ def stats_chart_with_labels(player, comp_df):
 
     s = comp_df.loc[player, ["Batting", "Bowling", "Fielding", "MVP", "Overall"]].astype(float)
     df = pd.DataFrame({"Metric": s.index, "Score": s.values})
-
-    # Scale scores to be positive for visualization (optional)
-    # But keep labels real values.
-    # We'll plot the values directly (can be negative due to zscores; that's okay).
 
     bar = alt.Chart(df).mark_bar().encode(
         x=alt.X("Metric:N", sort=None),
@@ -491,8 +497,7 @@ def stats_chart_with_labels(player, comp_df):
         text=alt.Text("Score:Q", format=".2f")
     )
 
-    chart = (bar + labels).properties(height=220)
-    st.altair_chart(chart, use_container_width=True)
+    st.altair_chart((bar + labels).properties(height=220), use_container_width=True)
 
 def player_stats_popover(team_name, squad, comp_df):
     with st.popover("Player stats"):
@@ -507,7 +512,6 @@ def xi_editor(team_name, squad, ratings_df, state_key, comp_df):
     if state_key not in st.session_state:
         st.session_state[state_key] = best_xi(squad, ratings_df, 11)
 
-    # Tooltip alternative (stable)
     player_stats_popover(team_name, squad, comp_df)
 
     search = st.text_input(f"Search players ({team_name})", "", key=f"search_{state_key}")
@@ -547,10 +551,9 @@ def xi_editor(team_name, squad, ratings_df, state_key, comp_df):
     return chosen
 
 # ----------------------------
-# Better prediction card colors
+# Prediction card UI
 # ----------------------------
 def pred_theme(pct):
-    # better premium palette (less harsh)
     if pct >= 65:
         return ("#7CFFCB", "High chance", "linear-gradient(90deg,#7CFFCB,#7AA2FF)")
     if pct >= 50:
@@ -579,115 +582,103 @@ def prediction_card(team, pct, strength):
     )
 
 # ----------------------------
-# App
+# APP (Predictions only)
 # ----------------------------
-page = st.sidebar.radio("Navigation", ["Predictions", "Recommendations"], index=0)
-#tab_pred, tab_rec = st.tabs(["Predictions", "Recommendations"])
+squads_df = load_squads()
+ratings, comp_df = build_player_ratings_and_components()
+teams = sorted(squads_df["Team"].unique().tolist())
 
-if page == "Predictions":
-#with tab_pred:
-    squads_df = load_squads()
-    ratings, comp_df = build_player_ratings_and_components()
+with st.container(border=True):
+    st.subheader("Team Selection")
 
-    teams = sorted(squads_df["Team"].unique().tolist())
+    cA, cB = st.columns(2)
+    with cA:
+        team_tile_grid("Team A", teams, "team_a")
+    with cB:
+        team_tile_grid("Team B", teams, "team_b")
+
+    sel_a = st.session_state.get("team_a")
+    sel_b = st.session_state.get("team_b")
+
+    go_disabled = (not sel_a) or (not sel_b) or (sel_a == sel_b)
+    if sel_a and sel_b and sel_a == sel_b:
+        st.warning("Select two different teams.")
+
+    go = st.button("Go", type="primary", disabled=go_disabled)
+
+if "go_done" not in st.session_state:
+    st.session_state.go_done = False
+
+if go:
+    st.session_state.go_done = True
+    for k in ["xi_a", "xi_b", "search_xi_a", "search_xi_b"]:
+        if k in st.session_state:
+            del st.session_state[k]
+
+if st.session_state.go_done:
+    team_a = st.session_state.get("team_a")
+    team_b = st.session_state.get("team_b")
+
+    if not team_a or not team_b or team_a == team_b:
+        st.stop()
+
+    squad_a = squads_df.loc[squads_df["Team"] == team_a, "Player"].tolist()
+    squad_b = squads_df.loc[squads_df["Team"] == team_b, "Player"].tolist()
 
     with st.container(border=True):
-        st.subheader("Team Selection")
+        st.subheader("Playing XI")
+        st.markdown('<div class="small">Tick players in XI (exactly 11). Use Player stats popover for quick stats.</div>', unsafe_allow_html=True)
 
-        cA, cB = st.columns(2)
-        with cA:
-            team_tile_grid("Team A", teams, "team_a")
-        with cB:
-            team_tile_grid("Team B", teams, "team_b")
+        b1, b2, b3 = st.columns([1, 1, 1])
+        with b1:
+            if st.button(f"Auto-pick Best XI: {team_a}", use_container_width=True):
+                st.session_state["xi_a"] = best_xi(squad_a, ratings, 11)
+        with b2:
+            if st.button(f"Auto-pick Best XI: {team_b}", use_container_width=True):
+                st.session_state["xi_b"] = best_xi(squad_b, ratings, 11)
+        with b3:
+            if st.button("Reset Both", use_container_width=True):
+                st.session_state["xi_a"] = best_xi(squad_a, ratings, 11)
+                st.session_state["xi_b"] = best_xi(squad_b, ratings, 11)
 
-        sel_a = st.session_state.get("team_a")
-        sel_b = st.session_state.get("team_b")
+        left, right = st.columns(2)
 
-        go_disabled = (not sel_a) or (not sel_b) or (sel_a == sel_b)
-        if sel_a and sel_b and sel_a == sel_b:
-            st.warning("Select two different teams.")
+        with left:
+            with st.container(border=True):
+                logo = get_logo(team_a)
+                if logo:
+                    st.image(logo, width=90)
+                st.markdown(f"### {team_a}")
+                _ = xi_editor(team_a, squad_a, ratings, "xi_a", comp_df)
 
-        go = st.button("Go", type="primary", disabled=go_disabled)
+        with right:
+            with st.container(border=True):
+                logo = get_logo(team_b)
+                if logo:
+                    st.image(logo, width=90)
+                st.markdown(f"### {team_b}")
+                _ = xi_editor(team_b, squad_b, ratings, "xi_b", comp_df)
 
-    if "go_done" not in st.session_state:
-        st.session_state.go_done = False
+    can_predict = (len(st.session_state.get("xi_a", [])) == 11 and len(st.session_state.get("xi_b", [])) == 11)
 
-    if go:
-        st.session_state.go_done = True
-        for k in ["xi_a", "xi_b", "search_xi_a", "search_xi_b"]:
-            if k in st.session_state:
-                del st.session_state[k]
-
-    if st.session_state.go_done:
-        team_a = st.session_state.get("team_a")
-        team_b = st.session_state.get("team_b")
-
-        if not team_a or not team_b or team_a == team_b:
-            st.stop()
-
-        squad_a = squads_df.loc[squads_df["Team"] == team_a, "Player"].tolist()
-        squad_b = squads_df.loc[squads_df["Team"] == team_b, "Player"].tolist()
-
-        with st.container(border=True):
-            st.subheader("Playing XI")
-            st.markdown('<div class="small">Tick players in XI (exactly 11). Use Player stats popover for quick stats.</div>', unsafe_allow_html=True)
-
-            b1, b2, b3 = st.columns([1, 1, 1])
-            with b1:
-                if st.button(f"Auto-pick Best XI: {team_a}", use_container_width=True):
-                    st.session_state["xi_a"] = best_xi(squad_a, ratings, 11)
-            with b2:
-                if st.button(f"Auto-pick Best XI: {team_b}", use_container_width=True):
-                    st.session_state["xi_b"] = best_xi(squad_b, ratings, 11)
-            with b3:
-                if st.button("Reset Both", use_container_width=True):
-                    st.session_state["xi_a"] = best_xi(squad_a, ratings, 11)
-                    st.session_state["xi_b"] = best_xi(squad_b, ratings, 11)
-
-            left, right = st.columns(2)
-
-            with left:
-                with st.container(border=True):
-                    logo = get_logo(team_a)
-                    if logo:
-                        st.image(logo, width=90)
-                    st.markdown(f"### {team_a}")
-                    _ = xi_editor(team_a, squad_a, ratings, "xi_a", comp_df)
-
-            with right:
-                with st.container(border=True):
-                    logo = get_logo(team_b)
-                    if logo:
-                        st.image(logo, width=90)
-                    st.markdown(f"### {team_b}")
-                    _ = xi_editor(team_b, squad_b, ratings, "xi_b", comp_df)
-
-        can_predict = (len(st.session_state.get("xi_a", [])) == 11 and len(st.session_state.get("xi_b", [])) == 11)
-
-        with st.container(border=True):
-            predict = st.button("Predict", type="primary", disabled=not can_predict)
-            if not can_predict:
-                st.warning("Select exactly 11 players for both teams.")
-
-        if predict:
-            xi_a = st.session_state["xi_a"]
-            xi_b = st.session_state["xi_b"]
-
-            sA = team_strength(xi_a, ratings)
-            sB = team_strength(xi_b, ratings)
-
-            pA = sigmoid((sA - sB) / PROB_SCALE)
-            pctA = int(round(pA * 100))
-            pctB = 100 - pctA
-
-            c1, c2 = st.columns(2)
-            with c1:
-                prediction_card(team_a, pctA, sA)
-            with c2:
-                prediction_card(team_b, pctB, sB)
-
-else:
-#with tab_rec:
     with st.container(border=True):
-        st.subheader("Recommendations")
-        st.caption("Tell me what you want here next.")
+        predict = st.button("Predict", type="primary", disabled=not can_predict)
+        if not can_predict:
+            st.warning("Select exactly 11 players for both teams.")
+
+    if predict:
+        xi_a = st.session_state["xi_a"]
+        xi_b = st.session_state["xi_b"]
+
+        sA = team_strength(xi_a, ratings)
+        sB = team_strength(xi_b, ratings)
+
+        pA = sigmoid((sA - sB) / PROB_SCALE)
+        pctA = int(round(pA * 100))
+        pctB = 100 - pctA
+
+        c1, c2 = st.columns(2)
+        with c1:
+            prediction_card(team_a, pctA, sA)
+        with c2:
+            prediction_card(team_b, pctB, sB)
