@@ -316,20 +316,17 @@ div[data-testid="stVerticalBlockBorderWrapper"] {{
 h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
 
 /* ---------- TEAM TILE ---------- */
-.tile {{
-  position: relative;
+.tile{{
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.16);
   border-radius: 18px;
   padding: 12px;
   text-align: center;
-  min-height: 255px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+  min-height: 0px;          /* IMPORTANT: remove forced height */
+  display: block;           /* IMPORTANT: no flex spacing */
   overflow: hidden;
 }}
+
 .tile:hover {{
   transform: translateY(-2px);
   box-shadow: 0 18px 60px rgba(0,0,0,0.30);
@@ -392,16 +389,28 @@ h1,h2,h3,h4 {{ color: rgba(245,247,255,0.98) !important; }}
 }}
 
 /* Invisible click button: cover full tile area */
-.tileClickWrap .stButton > button {{
+/* clean tiny select button */
+.tileBtn .stButton > button{{
   width: 100% !important;
-  height: 255px !important;
-  opacity: 0 !important;
-  border: none !important;
+  border-radius: 12px !important;
+  padding: 8px 10px !important;
+  font-weight: 900 !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  background: rgba(255,255,255,0.14) !important;
+  color: rgba(245,247,255,0.96) !important;
   box-shadow: none !important;
-  background: transparent !important;
-  padding: 0 !important;
-  margin-top: -255px !important;  /* overlay */
 }}
+
+.tileBtn .stButton > button:hover{{
+  background: rgba(255,255,255,0.20) !important;
+}}
+
+/* selected state: more obvious */
+.tileSelected{{
+  border: 2px solid rgba(255,122,217,0.95) !important;
+  background: rgba(255,122,217,0.14) !important;
+}}
+
 
 /* ---------- PREDICTION CARD ---------- */
 .predCard {{
@@ -444,7 +453,7 @@ unsafe_allow_html=True
 # ----------------------------
 def team_tile_grid(title, teams, selected_key):
     st.markdown(f"### {title}")
-    st.markdown('<div class="small">Click a logo to select</div>', unsafe_allow_html=True)
+    st.markdown('<div class="small">Click Select under logo</div>', unsafe_allow_html=True)
 
     cols = st.columns(4)
     for i, t in enumerate(teams):
@@ -457,7 +466,6 @@ def team_tile_grid(title, teams, selected_key):
 
             st.markdown(f'<div class="{tile_class}">', unsafe_allow_html=True)
 
-            # logo block
             st.markdown('<div class="logoBox">', unsafe_allow_html=True)
             if logo:
                 st.image(logo, use_container_width=True)
@@ -466,13 +474,14 @@ def team_tile_grid(title, teams, selected_key):
             st.markdown('</div>', unsafe_allow_html=True)
 
             st.markdown(f'<div class="tileName">{t}</div>{badge_html}', unsafe_allow_html=True)
+
+            st.markdown('<div class="tileBtn">', unsafe_allow_html=True)
+            if st.button("Select", key=f"{selected_key}_{t}"):
+                st.session_state[selected_key] = t
+            st.markdown('</div>', unsafe_allow_html=True)
+
             st.markdown("</div>", unsafe_allow_html=True)
 
-            # Full-tile invisible click overlay
-            st.markdown('<div class="tileClickWrap">', unsafe_allow_html=True)
-            if st.button("", key=f"{selected_key}_{t}"):
-                st.session_state[selected_key] = t
-            st.markdown("</div>", unsafe_allow_html=True)
 
 # ----------------------------
 # Player stats popover + chart (labels)
