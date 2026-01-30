@@ -499,6 +499,64 @@ button[kind="primary"] {{
   font-size: 10.5px;
   color: rgba(220,230,255,0.65);
 }}
+
+/* ============================= */
+/* FIX VISIBILITY – PLAYER XI UI */
+/* ============================= */
+
+/* Search box text + placeholder */
+input, textarea {{
+  color: rgba(245,247,255,0.95) !important;
+}}
+
+input::placeholder {{
+  color: rgba(220,230,255,0.60) !important;
+}}
+
+/* Streamlit text input container */
+div[data-baseweb="input"] {{
+  background: rgba(10,16,30,0.55) !important;
+}}
+
+/* "Selected: 11/11" caption */
+.stCaption, 
+[data-testid="stCaptionContainer"] {{
+  color: rgba(245,247,255,0.90) !important;
+  font-weight: 600;
+}}
+
+/* Warning text: "You selected more than 11..." */
+div[data-testid="stAlert"] p {{
+  color: #ffffff !important;
+  font-weight: 700;
+}}
+
+/* Warning box background (optional – premium look) */
+div[data-testid="stAlert"] {{
+  background: rgba(255, 165, 0, 0.15) !important;
+  border: 1px solid rgba(255, 165, 0, 0.55) !important;
+}}
+
+/* Data editor table text */
+div[data-testid="stDataFrame"] * {{
+  color: rgba(245,247,255,0.95) !important;
+}}
+
+/* Checkbox labels */
+label {{
+  color: rgba(245,247,255,0.92) !important;
+}}
+
+/* EXACT: Selected 11/11 label only */
+.xi-selected {{
+  color: rgba(245,247,255,0.95);
+  font-weight: 700;
+  font-size: 13px;
+  margin-top: 6px;
+}}
+
+
+
 </style>
 
 <div class="topbar">
@@ -617,7 +675,11 @@ def xi_editor(team_name, squad, ratings_df, state_key, comp_df):
         st.warning("You selected more than 11. I kept the best 11 (by rating).")
 
     st.session_state[state_key] = chosen
-    st.caption(f"Selected: {len(chosen)}/11")
+    st.markdown(
+    f'<div class="xi-selected">Selected: {len(chosen)}/11</div>',
+    unsafe_allow_html=True
+    )
+
     return chosen
 
 # ----------------------------
