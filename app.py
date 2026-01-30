@@ -1,18 +1,13 @@
-# app.py  (PSL 2.0 AI Match Predictor)
+# app.py  (PSL 2.0 AI Match Predictor + Compliance Monitor)
 # ---------------------------------------------------------
-# End-to-end working Streamlit app with:
-# - Background image (assets/bg.jpg)
-# - Brand logo in top bar (assets/PSL brand.jpg)
-# - Clean Team tiles with selection highlight (top band + subtle fill)
-# - Team A vs Team B divider line
-# - Go -> Playing XI -> Predict flow
-# - Player stats popover per team with bar chart + value labels (Altair)
-# - Premium prediction cards with vibrant colors
-# - Footer (Created by IT Digitalization Team...)
-# - Sidebar/collapsed control hidden
+# Includes:
+# - Two Tabs at top (Predictor / Compliance)
+# - Compliance reads PSL02_Compliance_Log.xlsx (Matches + Appearances)
+# - FIXED: Name matching via PlayerKey normalization (handles A.H. Asad Mughni vs Asad Mughni, (vc), dots, etc.)
+# - FIXED: Clear file diagnostics (shows which file is being read, sheets, and row counts)
 # ---------------------------------------------------------
 
-import os, base64
+import os, base64, re
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -53,6 +48,10 @@ TEAM_LOGOS = {
     "Port Qasim Panthers": "PortQasim.jpg",
     "Shikarpur Stallions": "Shikarpur.jpg",
 }
+
+# Compliance file (you update after every match)
+COMPLIANCE_XLSX = os.path.join(BASE_DIR, "PSL02_Compliance_Log.xlsx")
+MIN_MATCHES_REQUIRED = 2
 
 # ----------------------------
 # Model settings
@@ -138,6 +137,17 @@ def team_strength(xi, ratings_df):
                 s += v
     return float(s) if (not np.isnan(s) and not np.isinf(s)) else 0.0
 
+# --- Name normalization to match squad vs appearances ---
+# Handles: "A.H. Asad Mughni" vs "Asad Mughni", "(vc)", dots, extra spaces, etc.
+def clean_name(s: str) -> str:
+    s = str(s).strip().lower()
+    s = re.sub(r"\(.*?\)", " ", s)          # remove (vc), (c), etc
+    s = re.sub(r"[^a-z\s]", " ", s)         # remove dots/numbers/specials
+    s = re.sub(r"\s+", " ", s).strip()
+    # remove single-letter initials (a h asad -> asad) but keep normal names
+    parts = [p for p in s.split() if len(p) > 1]
+    return " ".join(parts)
+
 # ----------------------------
 # Data Load
 # ----------------------------
@@ -150,6 +160,225 @@ def load_squads():
             (df["Player"] != "") & (df["Player"].str.lower() != "nan")]
     return df
 
+# ----------------------------
+# Compliance & Participation (PSL02_Compliance_Log.xlsx)
+# ----------------------------
+@st.cache_data(show_spinner=False, ttl=10)
+def load_compliance_log(path: str):
+    """Loads Matches + Appearances sheets. TTL keeps it fresh after each match update."""
+    if not os.path.exists(path):
+        return pd.DataFrame(), pd.DataFrame()
+
+    try:
+        matches = pd.read_excel(path, sheet_name="Matches")
+    except Exception:
+        matches = pd.DataFrame()
+
+    try:
+        apps = pd.read_excel(path, sheet_name="Appearances")
+    except Exception:
+        apps = pd.DataFrame()
+
+    if not apps.empty:
+        for c in ["Team", "Player"]:
+            if c in apps.columns:
+                apps[c] = apps[c].astype(str).str.strip()
+        if "MatchID" in apps.columns:
+            apps["MatchID"] = pd.to_numeric(apps["MatchID"], errors="coerce")
+        apps = apps.dropna(subset=[c for c in ["MatchID", "Team", "Player"] if c in apps.columns])
+        apps = apps.drop_duplicates(subset=[c for c in ["MatchID", "Team", "Player"] if c in apps.columns]).reset_index(drop=True)
+
+    return matches, apps
+
+
+def compliance_matrix_page(squads_df: pd.DataFrame):
+    st.subheader("📋 Team Participation Matrix")
+    st.markdown(
+        '<div class="small">Select a team to see a simple tick/cross view by match. '
+        'No percentages — just who played.</div>',
+        unsafe_allow_html=True
+    )
+
+    # --- Diagnostics (helps avoid reading wrong files) ---
+    with st.expander("Diagnostics", expanded=False):
+        st.write("BASE_DIR:", BASE_DIR)
+        st.write("Compliance file:", COMPLIANCE_XLSX, "✅" if os.path.exists(COMPLIANCE_XLSX) else "❌ (missing)")
+        st.write("Squads file:", SQUADS_XLSX, "✅" if os.path.exists(SQUADS_XLSX) else "❌ (missing)")
+        if os.path.exists(COMPLIANCE_XLSX):
+            try:
+                xls = pd.ExcelFile(COMPLIANCE_XLSX)
+                st.write("Compliance sheets:", xls.sheet_names)
+            except Exception as e:
+                st.write("Could not read compliance sheets:", e)
+
+    matches_df, apps_df = load_compliance_log(COMPLIANCE_XLSX)
+
+    if squads_df.empty:
+        st.error("Squads file is empty or could not be loaded.")
+        return
+
+    teams = sorted(squads_df["Team"].dropna().unique().tolist())
+    if not teams:
+        st.error("No teams found in squads data.")
+        return
+
+    team = st.selectbox("Select Team", teams, index=0)
+
+    # ---- Prefer mapper outputs if present (generated by your mapping script) ----
+    player_master_path = os.path.join(BASE_DIR, "player_master.xlsx")
+    apps_mapped_path = os.path.join(BASE_DIR, "appearances_mapped.xlsx")
+
+    @st.cache_data(show_spinner=False, ttl=30)
+    def load_player_master():
+        if os.path.exists(player_master_path):
+            pm = pd.read_excel(player_master_path)
+            # make sure required cols exist
+            if "Player" not in pm.columns and "player_name_raw" in pm.columns:
+                pm["Player"] = pm["player_name_raw"]
+            if "Team_canonical" not in pm.columns and "Team" in pm.columns:
+                pm["Team_canonical"] = pm["Team"].astype(str).str.strip()
+            if "player_name_key" not in pm.columns:
+                src = "player_name_raw" if "player_name_raw" in pm.columns else "Player"
+                pm["player_name_key"] = pm[src].apply(clean_name)
+            return pm[["player_id","Team_canonical","Player","player_name_key"]].drop_duplicates()
+        # fallback: build from squads
+        tmp = squads_df.copy()
+        tmp["Team_canonical"] = tmp["Team"].astype(str).str.strip()
+        tmp["Player"] = tmp["Player"].astype(str).str.strip()
+        tmp["player_name_key"] = tmp["Player"].apply(clean_name)
+        keys = tmp[["player_name_key"]].drop_duplicates().sort_values("player_name_key").reset_index(drop=True)
+        keys["player_id"] = ["P" + str(i + 1).zfill(4) for i in range(len(keys))]
+        pm = tmp.merge(keys, on="player_name_key", how="left")
+        return pm[["player_id","Team_canonical","Player","player_name_key"]].drop_duplicates()
+
+    @st.cache_data(show_spinner=False, ttl=30)
+    def load_appearances_mapped(apps_raw: pd.DataFrame, pm: pd.DataFrame):
+        if os.path.exists(apps_mapped_path):
+            am = pd.read_excel(apps_mapped_path)
+            if "Team_canonical" not in am.columns and "Team" in am.columns:
+                am["Team_canonical"] = am["Team"].astype(str).str.strip()
+            if "player_name_key" not in am.columns and "Player" in am.columns:
+                am["player_name_key"] = am["Player"].apply(clean_name)
+            return am
+        # fallback mapping
+        if apps_raw.empty:
+            return apps_raw
+        tmp = apps_raw.copy()
+        tmp["Team_canonical"] = tmp["Team"].astype(str).str.strip()
+        tmp["player_name_key"] = tmp["Player"].apply(clean_name)
+        lookup = pm[["player_id","Team_canonical","player_name_key"]].drop_duplicates()
+        tmp = tmp.merge(lookup, on=["Team_canonical","player_name_key"], how="left")
+        # global fallback ignoring team
+        miss = tmp["player_id"].isna()
+        if miss.any():
+            gl = pm[["player_id","player_name_key"]].drop_duplicates()
+            tmp2 = tmp.loc[miss].merge(gl, on="player_name_key", how="left", suffixes=("", "_g"))
+            tmp.loc[miss, "player_id"] = tmp2["player_id_g"].values
+        return tmp
+
+    pm = load_player_master()
+    apps_mapped = load_appearances_mapped(apps_df, pm)
+
+    # ---- Determine team matches ----
+    team_match_ids = []
+    if not matches_df.empty and "MatchID" in matches_df.columns:
+        md = matches_df.copy()
+        md["MatchID"] = pd.to_numeric(md["MatchID"], errors="coerce")
+        # Support flexible columns: TeamA/TeamB or Team A/Team B, etc.
+        colA = find_col(md, ["TeamA","Team A","Team1","Team 1","Home","HomeTeam"])
+        colB = find_col(md, ["TeamB","Team B","Team2","Team 2","Away","AwayTeam","Visitor"])
+        if colA and colB:
+            team_match_ids = md.loc[(md[colA] == team) | (md[colB] == team), "MatchID"].dropna().unique().tolist()
+        elif "Team" in md.columns:
+            team_match_ids = md.loc[md["Team"] == team, "MatchID"].dropna().unique().tolist()
+
+    # fallback: derive from appearances
+    if not team_match_ids and not apps_df.empty and "MatchID" in apps_df.columns:
+        team_match_ids = apps_df.loc[apps_df["Team"] == team, "MatchID"].dropna().unique().tolist()
+
+    team_match_ids = sorted([int(x) for x in team_match_ids if pd.notna(x)])
+
+    if not team_match_ids:
+        st.warning(f"No matches found for **{team}** in PSL02_Compliance_Log.xlsx.")
+        return
+
+    total_team_matches = len(team_match_ids)
+
+    # Friendly headers: show opponent name (e.g., 'vs Keamari Kings (05-Jan)')
+    label_by_mid = {mid: "vs" for mid in team_match_ids}
+
+    if not matches_df.empty and "MatchID" in matches_df.columns:
+        md = matches_df.copy()
+        md["MatchID"] = pd.to_numeric(md["MatchID"], errors="coerce")
+        if "MatchDate" in md.columns:
+            md["MatchDate"] = pd.to_datetime(md["MatchDate"], errors="coerce")
+
+        for _, r in md.iterrows():
+            if pd.isna(r.get("MatchID")):
+                continue
+            mid = int(r["MatchID"])
+            if mid not in label_by_mid:
+                continue
+
+            # Flexible team columns (TeamA/TeamB or Team A/Team B etc.)
+            colA = find_col(md, ["TeamA","Team A","Team1","Team 1","Home","HomeTeam"])
+            colB = find_col(md, ["TeamB","Team B","Team2","Team 2","Away","AwayTeam","Visitor"])
+            opp = ""
+            if colA and colB:
+                ta = str(r.get(colA, "")).strip()
+                tb = str(r.get(colB, "")).strip()
+                if ta == str(team).strip():
+                    opp = tb
+                elif tb == str(team).strip():
+                    opp = ta
+
+            dt_txt = ""
+            if "MatchDate" in md.columns and pd.notna(r.get("MatchDate")):
+                dt_txt = r["MatchDate"].strftime("%d-%b")
+
+            label = f"vs {opp}" if opp else "vs"
+            if dt_txt:
+                label += f" ({dt_txt})"
+
+            label_by_mid[mid] = label
+
+# ---- Build matrix rows ----
+    squad_team = pm.loc[pm["Team_canonical"] == str(team).strip()].copy()
+    if squad_team.empty:
+        # fallback from squads_df if master doesn't include team
+        squad_team = squads_df.loc[squads_df["Team"] == team].copy()
+        squad_team["Team_canonical"] = squad_team["Team"].astype(str).str.strip()
+        squad_team["Player"] = squad_team["Player"].astype(str).str.strip()
+        squad_team["player_name_key"] = squad_team["Player"].apply(clean_name)
+        keys = squad_team[["player_name_key"]].drop_duplicates().sort_values("player_name_key").reset_index(drop=True)
+        keys["player_id"] = ["P" + str(i + 1).zfill(4) for i in range(len(keys))]
+        squad_team = squad_team.merge(keys, on="player_name_key", how="left")
+
+    team_apps = apps_mapped.copy()
+    if not team_apps.empty:
+        team_apps["MatchID"] = pd.to_numeric(team_apps["MatchID"], errors="coerce")
+        team_apps = team_apps.loc[
+            (team_apps["Team_canonical"] == str(team).strip()) &
+            (team_apps["MatchID"].isin(team_match_ids))
+        ].copy()
+
+    rows = []
+    for _, r in squad_team.sort_values("Player").iterrows():
+        pid = r.get("player_id", "")
+        pname = r.get("Player", "")
+        played = set()
+        if not team_apps.empty and pid:
+            played = set(team_apps.loc[team_apps["player_id"] == pid, "MatchID"].dropna().astype(int).tolist())
+
+        row = {"Player": pname}
+        for mid in team_match_ids:
+            row[label_by_mid[mid]] = "✅" if mid in played else "❌"
+        row["Total Team Matches"] = total_team_matches
+        row["Player Matches"] = len(played)
+        rows.append(row)
+
+    matrix_df = pd.DataFrame(rows)
+    st.dataframe(matrix_df, use_container_width=True, hide_index=True)
 def build_component_scores(bat, bowl, field, mvp):
     # Batting
     bname = pick_name_col(bat)
@@ -263,8 +492,6 @@ def build_player_ratings_and_components():
 
 # ----------------------------
 # UI Styling
-# IMPORTANT: keep CSS inside a Python f-string (triple quotes) only.
-# If you ever see NameError: background/width ... it means CSS leaked outside the string.
 # ----------------------------
 bg_b64 = file_to_base64(BG_IMAGE)
 brand_b64 = file_to_base64(BRAND_IMAGE)
@@ -279,28 +506,25 @@ html, body, [class*="css"] {{
 
 .stApp {{
   background:
-    radial-gradient(1200px 700px at 50% -10%, rgba(122,162,255,0.30), rgba(0,0,0,0) 55%),
-    radial-gradient(900px 600px at 90% 20%, rgba(255,122,217,0.26), rgba(0,0,0,0) 55%),
-    linear-gradient(180deg, rgba(6,10,22,0.55) 0%, rgba(6,10,22,0.82) 55%, rgba(6,10,22,0.93) 100%),
+    radial-gradient(1200px 700px at 50% -10%, rgba(122,162,255,0.18), rgba(0,0,0,0) 55%),
+    radial-gradient(900px 600px at 90% 20%, rgba(255,122,217,0.14), rgba(0,0,0,0) 55%),
+    linear-gradient(180deg, rgba(6,10,22,0.38) 0%, rgba(6,10,22,0.62) 55%, rgba(6,10,22,0.74) 100%),
     url("data:image/jpg;base64,{bg_b64}");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
 }}
 
-/* layout */
 .block-container {{
   padding-top: 86px;
-  max-width: 1400px;   /* reduce side empty space */
+  max-width: 1400px;
 }}
 header[data-testid="stHeader"] {{ background: transparent; }}
 div[data-testid="stToolbar"] {{ visibility:hidden; height:0px; }}
 
-/* Hide sidebar + collapse arrow */
 section[data-testid="stSidebar"] {{ display:none !important; }}
 button[kind="header"][data-testid="collapsedControl"] {{ display:none !important; }}
 
-/* Topbar */
 .topbar {{
   position: fixed; top:0; left:0; right:0; z-index:999;
   height:60px; display:flex; align-items:center;
@@ -321,16 +545,14 @@ button[kind="header"][data-testid="collapsedControl"] {{ display:none !important
   letter-spacing: 0.2px;
 }}
 
-/* bordered containers */
 div[data-testid="stVerticalBlockBorderWrapper"] {{
-  background: rgba(255,255,255,0.10);
+  background: rgba(15,23,42,0.08);
   border: 1px solid rgba(255,255,255,0.16);
   border-radius: 18px;
   box-shadow: 0 18px 60px rgba(0,0,0,0.36);
   backdrop-filter: blur(14px);
 }}
 
-/* text */
 .small {{
   color: rgba(235,242,255,0.92);
   font-size: 10.5px;
@@ -340,7 +562,6 @@ h1,h2,h3,h4 {{
   color: rgba(245,247,255,0.98) !important;
 }}
 
-/* TEAM DIVIDER LINE */
 .teamDivider {{
   width: 1px;
   height: 100%;
@@ -350,7 +571,6 @@ h1,h2,h3,h4 {{
   filter: drop-shadow(0 0 10px rgba(255,255,255,0.08));
 }}
 
-/* TEAM TILE */
 .tile {{
   position: relative;
   background: rgba(255,255,255,0.08);
@@ -365,16 +585,14 @@ h1,h2,h3,h4 {{
   box-shadow: 0 18px 60px rgba(0,0,0,0.30);
 }}
 
-/* Top band always subtle */
 .tile::before {{
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 12px;
-  background: rgba(255,255,255,0.10);
+  background: rgba(15,23,42,0.08);
 }}
 
-/* selected tile */
 .tileSelected {{
   border: 2px solid rgba(255,122,217,0.95) !important;
   box-shadow: 0 22px 70px rgba(255,122,217,0.20);
@@ -400,7 +618,7 @@ h1,h2,h3,h4 {{
   margin-top: 8px;
   font-weight: 900;
   color: rgba(245,247,255,0.95);
-  font-size: 11.5px;   /* slightly smaller */
+  font-size: 11.5px;
   line-height: 1.15;
   min-height: 30px;
   display:flex;
@@ -420,7 +638,6 @@ h1,h2,h3,h4 {{
   border: 1px solid rgba(122,162,255,0.65);
 }}
 
-/* tile select button (compact, consistent height) */
 .tileBtn .stButton > button {{
   width: 100% !important;
   border-radius: 12px !important;
@@ -435,7 +652,6 @@ h1,h2,h3,h4 {{
   background: rgba(255,255,255,0.18) !important;
 }}
 
-/* primary buttons */
 .stButton > button {{
   border-radius: 14px !important;
   font-weight: 900 !important;
@@ -446,7 +662,6 @@ button[kind="primary"] {{
   border: 0 !important;
 }}
 
-/* Prediction card */
 .predCard {{
   padding: 18px;
   border-radius: 18px;
@@ -463,7 +678,7 @@ button[kind="primary"] {{
   font-size: 11px; font-weight: 900;
   padding: 6px 10px; border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.10);
+  background: rgba(15,23,42,0.08);
   color: rgba(245,247,255,0.92);
 }}
 .predPct {{
@@ -471,7 +686,7 @@ button[kind="primary"] {{
 }}
 .predBar {{
   height: 12px; border-radius: 999px;
-  background: rgba(255,255,255,0.10);
+  background: rgba(15,23,42,0.08);
   border: 1px solid rgba(255,255,255,0.14);
   overflow: hidden; margin-top: 12px;
 }}
@@ -479,7 +694,6 @@ button[kind="primary"] {{
   height: 100%; border-radius: 999px;
 }}
 
-/* Footer */
 .appFooter {{
   margin-top: 40px;
   padding: 18px 10px;
@@ -500,62 +714,70 @@ button[kind="primary"] {{
   color: rgba(220,230,255,0.65);
 }}
 
-/* ============================= */
-/* FIX VISIBILITY – PLAYER XI UI */
-/* ============================= */
-
-/* Search box text + placeholder */
-input, textarea {{
-  color: rgba(245,247,255,0.95) !important;
+/* Tabs visibility */
+div[data-baseweb="tab-list"] {{
+  gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  padding: 6px;
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
 }}
-
-input::placeholder {{
-  color: rgba(220,230,255,0.60) !important;
-}}
-
-/* Streamlit text input container */
-div[data-baseweb="input"] {{
-  background: rgba(10,16,30,0.55) !important;
-}}
-
-/* "Selected: 11/11" caption */
-.stCaption, 
-[data-testid="stCaptionContainer"] {{
-  color: rgba(245,247,255,0.90) !important;
-  font-weight: 600;
-}}
-
-/* Warning text: "You selected more than 11..." */
-div[data-testid="stAlert"] p {{
-  color: #ffffff !important;
-  font-weight: 700;
-}}
-
-/* Warning box background (optional – premium look) */
-div[data-testid="stAlert"] {{
-  background: rgba(255, 165, 0, 0.15) !important;
-  border: 1px solid rgba(255, 165, 0, 0.55) !important;
-}}
-
-/* Data editor table text */
-div[data-testid="stDataFrame"] * {{
-  color: rgba(245,247,255,0.95) !important;
-}}
-
-/* Checkbox labels */
-label {{
+button[data-baseweb="tab"] {{
   color: rgba(245,247,255,0.92) !important;
+  font-weight: 900 !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+}}
+button[data-baseweb="tab"]:hover {{
+  background: rgba(255,255,255,0.12) !important;
+}}
+button[data-baseweb="tab"][aria-selected="true"] {{
+  color: rgba(7,16,33,0.98) !important;
+  background: linear-gradient(135deg, #7aa2ff 0%, #ff7ad9 100%) !important;
+  border: 0 !important;
+}}
+button[data-baseweb="tab"]:focus {{
+  outline: none !important;
+  box-shadow: none !important;
 }}
 
-/* EXACT: Selected 11/11 label only */
-.xi-selected {{
-  color: rgba(245,247,255,0.95);
-  font-weight: 700;
-  font-size: 13px;
-  margin-top: 6px;
+/* ---- Tabs visibility ---- */
+.stTabs [data-baseweb="tab-list"]{{
+  background: rgba(255,255,255,0.28);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 14px;
+  padding: 6px 8px;
+  backdrop-filter: blur(8px);
+}}
+.stTabs [data-baseweb="tab"]{{
+  color: rgba(255,255,255,0.92) !important;
+  font-weight: 800 !important;
+  font-size: 15px !important;
+  text-shadow: 0 1px 10px rgba(0,0,0,0.55);
+}}
+.stTabs [aria-selected="true"]{{
+  background: rgba(255,255,255,0.20) !important;
+  border-radius: 12px !important;
 }}
 
 
+
+/* --- Readability (safe) --- */
+.small, .muted, .hint, .stCaption, [data-testid="stCaptionContainer"] {{
+  color: rgba(255,255,255,0.92) !important;
+}}
+label {{
+  color: rgba(255,255,255,0.92) !important;
+}}
+
+/* Keep placeholders visible on white inputs */
+input::placeholder {{ color: rgba(100,116,139,0.90) !important; }}
+
+/* Ensure button text stays readable on light buttons */
+.stButton button {{ color: #0b1220 !important; }}
 
 </style>
 
@@ -566,8 +788,14 @@ label {{
   </div>
 </div>
 """,
-unsafe_allow_html=True
+    unsafe_allow_html=True
 )
+
+# ----------------------------
+# Tabs
+# ----------------------------
+st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
+tab_predictor, tab_compliance = st.tabs(["🏏 Match Predictor", "📋 Compliance"])
 
 # ----------------------------
 # UI: Team tiles
@@ -675,11 +903,7 @@ def xi_editor(team_name, squad, ratings_df, state_key, comp_df):
         st.warning("You selected more than 11. I kept the best 11 (by rating).")
 
     st.session_state[state_key] = chosen
-    st.markdown(
-    f'<div class="xi-selected">Selected: {len(chosen)}/11</div>',
-    unsafe_allow_html=True
-    )
-
+    st.caption(f"Selected: {len(chosen)}/11")
     return chosen
 
 # ----------------------------
@@ -713,110 +937,125 @@ def prediction_card(team, pct, strength):
         unsafe_allow_html=True
     )
 
-# ----------------------------
-# APP (Predictions only)
-# ----------------------------
-squads_df = load_squads()
-ratings, comp_df = build_player_ratings_and_components()
-teams = sorted(squads_df["Team"].unique().tolist())
+# =========================================================
+# TAB 1: Compliance Monitor
+# =========================================================
+with tab_compliance:
+    squads_df = load_squads()
+    with st.container(border=True):
+        compliance_matrix_page(squads_df)
 
-with st.container(border=True):
-    st.subheader("Team Selection")
-
-    # Team A | divider | Team B
-    colA, colMid, colB = st.columns([1, 0.045, 1], vertical_alignment="top")
-    with colA:
-        team_tile_grid("Team A", teams, "team_a")
-    with colMid:
-        st.markdown('<div class="teamDivider"></div>', unsafe_allow_html=True)
-    with colB:
-        team_tile_grid("Team B", teams, "team_b")
-
-    sel_a = st.session_state.get("team_a")
-    sel_b = st.session_state.get("team_b")
-
-    go_disabled = (not sel_a) or (not sel_b) or (sel_a == sel_b)
-    if sel_a and sel_b and sel_a == sel_b:
-        st.warning("Select two different teams.")
-
-    go = st.button("Go", type="primary", disabled=go_disabled)
-
-if "go_done" not in st.session_state:
-    st.session_state.go_done = False
-
-if go:
-    st.session_state.go_done = True
-    for k in ["xi_a", "xi_b", "search_xi_a", "search_xi_b"]:
-        if k in st.session_state:
-            del st.session_state[k]
-
-if st.session_state.go_done:
-    team_a = st.session_state.get("team_a")
-    team_b = st.session_state.get("team_b")
-
-    if not team_a or not team_b or team_a == team_b:
-        st.stop()
-
-    squad_a = squads_df.loc[squads_df["Team"] == team_a, "Player"].tolist()
-    squad_b = squads_df.loc[squads_df["Team"] == team_b, "Player"].tolist()
+# =========================================================
+# TAB 2: Match Predictor
+# =========================================================
+with tab_predictor:
+    squads_df = load_squads()
+    ratings, comp_df = build_player_ratings_and_components()
+    teams = sorted(squads_df["Team"].unique().tolist())
 
     with st.container(border=True):
-        st.subheader("Playing XI")
-        st.markdown('<div class="small">Tick players in XI (exactly 11). Use Player stats popover for quick stats.</div>', unsafe_allow_html=True)
+        st.subheader("Team Selection")
 
-        b1, b2, b3 = st.columns([1, 1, 1])
-        with b1:
-            if st.button(f"Auto-pick Best XI: {team_a}", use_container_width=True):
-                st.session_state["xi_a"] = best_xi(squad_a, ratings, 11)
-        with b2:
-            if st.button(f"Auto-pick Best XI: {team_b}", use_container_width=True):
-                st.session_state["xi_b"] = best_xi(squad_b, ratings, 11)
-        with b3:
-            if st.button("Reset Both", use_container_width=True):
-                st.session_state["xi_a"] = best_xi(squad_a, ratings, 11)
-                st.session_state["xi_b"] = best_xi(squad_b, ratings, 11)
+        colA, colMid, colB = st.columns([1, 0.045, 1], vertical_alignment="top")
+        with colA:
+            team_tile_grid("Team A", teams, "team_a")
+        with colMid:
+            st.markdown('<div class="teamDivider"></div>', unsafe_allow_html=True)
+        with colB:
+            team_tile_grid("Team B", teams, "team_b")
 
-        left, right = st.columns(2)
+        sel_a = st.session_state.get("team_a")
+        sel_b = st.session_state.get("team_b")
 
-        with left:
-            with st.container(border=True):
-                logo = get_logo(team_a)
-                if logo:
-                    st.image(logo, width=90)
-                st.markdown(f"### {team_a}")
-                _ = xi_editor(team_a, squad_a, ratings, "xi_a", comp_df)
+        go_disabled = (not sel_a) or (not sel_b) or (sel_a == sel_b)
+        if sel_a and sel_b and sel_a == sel_b:
+            st.warning("Select two different teams.")
 
-        with right:
-            with st.container(border=True):
-                logo = get_logo(team_b)
-                if logo:
-                    st.image(logo, width=90)
-                st.markdown(f"### {team_b}")
-                _ = xi_editor(team_b, squad_b, ratings, "xi_b", comp_df)
+        go = st.button("Go", type="primary", disabled=go_disabled)
 
-    can_predict = (len(st.session_state.get("xi_a", [])) == 11 and len(st.session_state.get("xi_b", [])) == 11)
+        # Show quick squad lists as soon as both teams are selected
+        if sel_a and sel_b and sel_a != sel_b:
+            a_squad = squads_df.loc[squads_df["Team"] == sel_a, "Player"].dropna().astype(str).tolist()
+            b_squad = squads_df.loc[squads_df["Team"] == sel_b, "Player"].dropna().astype(str).tolist()
+            a_tbl = pd.DataFrame({"Player (Team A)": a_squad})
+            b_tbl = pd.DataFrame({"Player (Team B)": b_squad})
 
-    with st.container(border=True):
-        predict = st.button("Predict", type="primary", disabled=not can_predict)
-        if not can_predict:
-            st.warning("Select exactly 11 players for both teams.")
+    if "go_done" not in st.session_state:
+        st.session_state.go_done = False
 
-    if predict:
-        xi_a = st.session_state["xi_a"]
-        xi_b = st.session_state["xi_b"]
+    if go:
+        st.session_state.go_done = True
+        for k in ["xi_a", "xi_b", "search_xi_a", "search_xi_b"]:
+            if k in st.session_state:
+                del st.session_state[k]
 
-        sA = team_strength(xi_a, ratings)
-        sB = team_strength(xi_b, ratings)
+    if st.session_state.go_done:
+        team_a = st.session_state.get("team_a")
+        team_b = st.session_state.get("team_b")
 
-        pA = sigmoid((sA - sB) / PROB_SCALE)
-        pctA = int(round(pA * 100))
-        pctB = 100 - pctA
+        if not team_a or not team_b or team_a == team_b:
+            st.stop()
 
-        c1, c2 = st.columns(2)
-        with c1:
-            prediction_card(team_a, pctA, sA)
-        with c2:
-            prediction_card(team_b, pctB, sB)
+        squad_a = squads_df.loc[squads_df["Team"] == team_a, "Player"].tolist()
+        squad_b = squads_df.loc[squads_df["Team"] == team_b, "Player"].tolist()
+
+        with st.container(border=True):
+            st.subheader("Playing XI")
+            st.markdown('<div class="small">Tick players in XI (exactly 11). Use Player stats popover for quick stats.</div>', unsafe_allow_html=True)
+
+            b1, b2, b3 = st.columns([1, 1, 1])
+            with b1:
+                if st.button(f"Auto-pick Best XI: {team_a}", use_container_width=True):
+                    st.session_state["xi_a"] = best_xi(squad_a, ratings, 11)
+            with b2:
+                if st.button(f"Auto-pick Best XI: {team_b}", use_container_width=True):
+                    st.session_state["xi_b"] = best_xi(squad_b, ratings, 11)
+            with b3:
+                if st.button("Reset Both", use_container_width=True):
+                    st.session_state["xi_a"] = best_xi(squad_a, ratings, 11)
+                    st.session_state["xi_b"] = best_xi(squad_b, ratings, 11)
+
+            left, right = st.columns(2)
+
+            with left:
+                with st.container(border=True):
+                    logo = get_logo(team_a)
+                    if logo:
+                        st.image(logo, width=90)
+                    st.markdown(f"### {team_a}")
+                    _ = xi_editor(team_a, squad_a, ratings, "xi_a", comp_df)
+
+            with right:
+                with st.container(border=True):
+                    logo = get_logo(team_b)
+                    if logo:
+                        st.image(logo, width=90)
+                    st.markdown(f"### {team_b}")
+                    _ = xi_editor(team_b, squad_b, ratings, "xi_b", comp_df)
+
+        can_predict = (len(st.session_state.get("xi_a", [])) == 11 and len(st.session_state.get("xi_b", [])) == 11)
+
+        with st.container(border=True):
+            predict = st.button("Predict", type="primary", disabled=not can_predict)
+            if not can_predict:
+                st.warning("Select exactly 11 players for both teams.")
+
+        if predict:
+            xi_a = st.session_state["xi_a"]
+            xi_b = st.session_state["xi_b"]
+
+            sA = team_strength(xi_a, ratings)
+            sB = team_strength(xi_b, ratings)
+
+            pA = sigmoid((sA - sB) / PROB_SCALE)
+            pctA = int(round(pA * 100))
+            pctB = 100 - pctA
+
+            c1, c2 = st.columns(2)
+            with c1:
+                prediction_card(team_a, pctA, sA)
+            with c2:
+                prediction_card(team_b, pctB, sB)
 
 # ----------------------------
 # Footer
