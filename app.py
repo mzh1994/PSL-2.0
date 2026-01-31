@@ -370,11 +370,11 @@ def compliance_matrix_page(squads_df: pd.DataFrame):
         if not team_apps.empty and pid:
             played = set(team_apps.loc[team_apps["player_id"] == pid, "MatchID"].dropna().astype(int).tolist())
 
-        row = {"Player": pname}
+        row = {"Player's Name": pname}
         for mid in team_match_ids:
             row[label_by_mid[mid]] = "✅" if mid in played else "❌"
         row["Total Team Matches"] = total_team_matches
-        row["Player Matches"] = len(played)
+        row["Matches Played"] = len(played)
         rows.append(row)
 
     matrix_df = pd.DataFrame(rows)
