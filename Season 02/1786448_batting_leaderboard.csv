@@ -3,36 +3,36 @@ player_id,name,team_id,team_name,total_match,innings,total_runs,highest_run,aver
 39405097,Syed Musa Raza Zaidi,9726488,Kot Bahadur Shah Bulls,4,4,196,104,98.00,2,236.14,83,RHB,7,22,0,1
 38956015,Abeer Kazmi,9726479,Port Qasim Panthers,4,4,178,96,59.33,1,243.84,73,RHB,12,17,2,0
 39559828,Umer Farooq,9726448,Macchike Mustangs,4,4,177,70,177.00,3,245.83,72,RHB,12,16,2,0
+44504593,Agha Hamza,9726462,Bubak Blasters,5,5,168,60,42.00,1,207.41,81,RHB,2,19,1,0
 16435832,Mazhar Iqbal,9726471,Keamari Kings,4,4,156,102,156.00,3,251.61,62,RHB,5,18,0,1
+39606524,Kamran Abdali,9726462,Bubak Blasters,5,5,155,67,51.67,2,182.35,85,RHB,10,9,1,0
 40212612,M Kaleem Ullah,9726479,Port Qasim Panthers,4,4,153,65,76.50,2,268.42,57,RHB,3,18,1,0
 39606001,Danish Ahmed,9726435,Mahmoodkot Mavericks,4,4,148,80,49.33,1,328.89,45,RHB,5,19,2,0
 39404848,Umar Nisar,9726452,Shikarpur Stallions,2,2,147,95,147.00,1,306.25,48,LHB,2,20,2,0
-44504593,Agha Hamza,9726462,Bubak Blasters,4,4,147,60,49.00,1,201.37,73,RHB,2,16,1,0
 36472174,Fakhir Sohail,9726435,Mahmoodkot Mavericks,4,4,137,48,68.50,2,228.33,60,RHB,7,14,0,0
-39606524,Kamran Abdali,9726462,Bubak Blasters,4,4,135,67,45.00,1,190.14,71,RHB,8,9,1,0
 39586115,Junaid Iqbal,9726471,Keamari Kings,4,4,123,80,41.00,1,219.64,56,RHB,5,13,1,0
 46285106,Muneeb Ul Hassan,9726479,Port Qasim Panthers,4,4,109,79,36.33,1,236.96,46,RHB,3,14,1,0
 36849912,Munawar Ali,9726458,Fazilpur Falcons,4,3,99,50,99.00,2,162.30,61,RHB,8,7,1,0
 46441658,M Owais,9726448,Macchike Mustangs,4,2,86,60,86.00,1,215.00,40,RHB,6,8,1,0
-39446447,Umer,9726452,Shikarpur Stallions,3,3,86,46,43.00,1,252.94,34,RHB,5,8,0,0
+39446447,Umer,9726452,Shikarpur Stallions,4,4,86,46,28.67,1,245.71,35,RHB,5,8,0,0
+39607262,Zubair Zab,9726452,Shikarpur Stallions,5,5,81,34,27.00,2,202.50,40,RHB,4,7,0,0
 10643363,Arman Bari,9726435,Mahmoodkot Mavericks,4,4,79,26,26.33,1,225.71,35,LHB,4,7,0,0
 32487566,Mehmood Shah,9726435,Mahmoodkot Mavericks,4,3,75,43,75.00,2,166.67,45,RHB,6,4,0,0
 18635594,Idrers,9726488,Kot Bahadur Shah Bulls,4,4,75,29,37.50,2,197.37,38,RHB,2,8,0,0
 39405902,Shabbir Sultan,9726488,Kot Bahadur Shah Bulls,4,4,72,34,18.00,0,135.85,53,RHB,6,4,0,0
+46613703,M Aurangzeb Muzammil Khan,9726452,Shikarpur Stallions,5,5,72,28,18.00,1,133.33,54,RHB,2,6,0,0
 19741699,Tabish,9726458,Fazilpur Falcons,4,3,68,59,22.67,0,242.86,28,RHB,2,8,1,0
-39607262,Zubair Zab,9726452,Shikarpur Stallions,4,4,67,34,33.50,2,216.13,31,RHB,3,6,0,0
-46613703,M Aurangzeb Muzammil Khan,9726452,Shikarpur Stallions,4,4,65,28,21.67,1,132.65,49,RHB,2,5,0,0
+39606210,Asad Mughni,9726462,Bubak Blasters,4,4,62,30,20.67,1,248.00,25,RHB,2,7,0,0
+46284757,Zeeshan Tahir,9726462,Bubak Blasters,5,5,62,36,20.67,2,177.14,35,RHB,5,4,0,0
 40631414,Muhammad Areeb,9726458,Fazilpur Falcons,4,3,59,54,29.50,1,226.92,26,RHB,7,3,1,0
-39446449,Asad Ahmed,9726452,Shikarpur Stallions,4,4,56,36,14.00,0,193.10,29,RHB,3,5,0,0
+39446449,Asad Ahmed,9726452,Shikarpur Stallions,5,5,58,36,11.60,0,181.25,32,RHB,3,5,0,0
 39405098,Irfan Shaikh,9726458,Fazilpur Falcons,4,3,55,27,55.00,2,161.76,34,RHB,6,1,0,0
-46284757,Zeeshan Tahir,9726462,Bubak Blasters,4,4,55,36,18.33,1,166.67,33,RHB,5,3,0,0
 39406037,Waseem Ullah Khan,9726488,Kot Bahadur Shah Bulls,4,3,54,27,18.00,0,225.00,24,RHB,3,5,0,0
 21802280,Asif Hamid,9726479,Port Qasim Panthers,3,3,50,43,25.00,1,200.00,25,RHB,2,6,0,0
 46285375,Akram Alizai,9726458,Fazilpur Falcons,4,3,47,27,47.00,2,204.35,23,RHB,2,3,0,0
-39606522,Sheikh Khalid Zahid,9726462,Bubak Blasters,4,4,46,36,15.33,1,219.05,21,RHB,5,3,0,0
+39606522,Sheikh Khalid Zahid,9726462,Bubak Blasters,5,5,46,36,11.50,1,209.09,22,RHB,5,3,0,0
 24488628,Mehab,9726471,Keamari Kings,3,3,45,21,15.00,0,195.65,23,RHB,4,3,0,0
-39606210,Asad Mughni,9726462,Bubak Blasters,3,3,43,30,21.50,1,238.89,18,RHB,1,5,0,0
-46284959,Sabir Hussain,9726452,Shikarpur Stallions,4,3,43,18,21.50,1,134.38,32,RHB,4,0,0,0
+46284959,Sabir Hussain,9726452,Shikarpur Stallions,5,3,43,18,21.50,1,134.38,32,RHB,4,0,0,0
 22922987,Waqas,9726458,Fazilpur Falcons,4,2,40,33,40.00,1,190.48,21,RHB,0,4,0,0
 39575879,Humays Khan,9726471,Keamari Kings,3,3,35,25,11.67,0,194.44,18,RHB,4,3,0,0
 18494553,Muhammad Hammad,9726448,Macchike Mustangs,4,1,33,33,33.00,0,220.00,15,RHB,4,2,0,0
@@ -42,38 +42,41 @@ player_id,name,team_id,team_name,total_match,innings,total_runs,highest_run,aver
 46285999,Irteza Ali Qureshi,9726435,Mahmoodkot Mavericks,2,2,26,15,13.00,0,108.33,24,RHB,3,0,0,0
 39606217,M Huzaif,9726479,Port Qasim Panthers,4,2,24,22,24.00,1,100.00,24,RHB,0,3,0,0
 39406041,Fazil Hussain,9726488,Kot Bahadur Shah Bulls,4,1,17,17,17.00,0,121.43,14,RHB,2,0,0,0
+46284962,Muhammad Riaz Ahmed,9726452,Shikarpur Stallions,3,1,14,14,14.00,0,93.33,15,RHB,0,0,0,0
 46285588,Muhammad Moiz Khan,9726471,Keamari Kings,4,2,14,10,14.00,1,116.67,12,RHB,1,0,0,0
 39446451,Ahsan,9726452,Shikarpur Stallions,4,1,12,12,-,1,100.00,12,RHB,1,0,0,0
-39405381,M Suleman Khan,9726462,Bubak Blasters,4,2,12,11,12.00,1,120.00,10,RHB,1,0,0,0
+39405381,M Suleman Khan,9726462,Bubak Blasters,5,2,12,11,12.00,1,120.00,10,RHB,1,0,0,0
 39406198,Waqas Ahmed,9726448,Macchike Mustangs,4,1,10,10,-,1,166.67,6,RHB,2,0,0,0
 39446452,M Usman,9726458,Fazilpur Falcons,3,2,10,10,10.00,1,100.00,10,RHB,0,0,0,0
 39446547,Jawwad Shafiq,9726471,Keamari Kings,3,1,9,9,9.00,0,100.00,9,RHB,0,1,0,0
 46441477,Zohaib Yaqoob,9726435,Mahmoodkot Mavericks,4,1,9,9,-,1,225.00,4,RHB,0,1,0,0
+46284961,Muhammad Shoaib,9726452,Shikarpur Stallions,4,2,9,9,9.00,1,50.00,18,RHB,0,0,0,0
 46284763,Muhammad Ahsan Marfani,9726462,Bubak Blasters,1,1,8,8,-,1,88.89,9,RHB,0,0,0,0
 46285587,Syed Aun Burhan Ali,9726471,Keamari Kings,4,1,8,8,8.00,0,160.00,5,RHB,2,0,0,0
+46284958,Rana Ahmed Ashraf,9726452,Shikarpur Stallions,2,2,7,6,3.50,0,100.00,7,RHB,1,0,0,0
 39405270,Syed Ather Waqar,9726435,Mahmoodkot Mavericks,4,2,6,5,6.00,1,150.00,4,RHB,1,0,0,0
 39559873,Ghavir Imran,9726458,Fazilpur Falcons,4,2,6,6,6.00,1,120.00,5,RHB,1,0,0,0
+46284965,Umair Abdul Moqeet,9726452,Shikarpur Stallions,2,1,5,5,-,1,125.00,4,RHB,0,0,0,0
 46286005,Syed Saaduddin Adil,9726435,Mahmoodkot Mavericks,2,1,5,5,-,1,100.00,5,RHB,0,0,0,0
 35966576,Saeed Iqbal,9726488,Kot Bahadur Shah Bulls,4,1,5,5,-,1,83.33,6,RHB,0,0,0,0
 39406191,Umair Ahmed,9726488,Kot Bahadur Shah Bulls,3,1,4,4,4.00,0,133.33,3,RHB,0,0,0,0
 24488629,Adnan,9726448,Macchike Mustangs,4,1,4,4,4.00,0,133.33,3,RHB,1,0,0,0
 46433130,Hafiz Mohsin Zahid,9726471,Keamari Kings,4,1,4,4,4.00,0,36.36,11,RHB,0,0,0,0
 39614469,Hameed Khan,9726488,Kot Bahadur Shah Bulls,3,2,4,2,-,2,66.67,6,RHB,0,0,0,0
-39606527,M Masood Tahir,9726462,Bubak Blasters,4,2,3,3,3.00,1,60.00,5,RHB,0,0,0,0
-38331072,Naeem Ahmad,9726462,Bubak Blasters,4,1,2,2,2.00,0,100.00,2,RHB,0,0,0,0
+39606527,M Masood Tahir,9726462,Bubak Blasters,5,2,3,3,3.00,1,60.00,5,RHB,0,0,0,0
 39446448,Ahmed Jung,9726479,Port Qasim Panthers,4,1,2,2,-,1,66.67,3,RHB,0,0,0,0
-46284958,Rana Ahmed Ashraf,9726452,Shikarpur Stallions,1,1,1,1,1.00,0,50.00,2,RHB,0,0,0,0
+38331072,Naeem Ahmad,9726462,Bubak Blasters,5,1,2,2,2.00,0,100.00,2,RHB,0,0,0,0
 46284963,Hassaan Bin Sultan,9726452,Shikarpur Stallions,2,1,1,1,-,1,100.00,1,RHB,0,0,0,0
 46286130,Muhammad Sajid,9726448,Macchike Mustangs,3,1,1,1,1.00,0,25.00,4,RHB,0,0,0,0
 40131221,Rayed Abdullah,9726471,Keamari Kings,3,1,1,1,-,1,50.00,2,RHB,0,0,0,0
 46285110,Rahul Kumar,9726479,Port Qasim Panthers,4,1,1,1,1.00,0,50.00,2,RHB,0,0,0,0
 39406194,Shoaib Rizvi,9726488,Kot Bahadur Shah Bulls,4,1,1,1,-,1,100.00,1,RHB,0,0,0,0
+39405382,Majid Faraz,9726452,Shikarpur Stallions,1,1,0,0,-,0,0.00,2,RHB,0,0,0,0
 39446546,Sheraz,9726471,Keamari Kings,1,1,0,0,-,1,0.00,1,RHB,0,0,0,0
 24488632,Janzaib,9726435,Mahmoodkot Mavericks,1,1,0,0,-,1,0,0,RHB,0,0,0,0
-39406043,M Ibraheem Shaikh,9726452,Shikarpur Stallions,3,1,0,0,-,1,0.00,2,RHB,0,0,0,0
 46284765,Muhammad Qasim,9726462,Bubak Blasters,3,1,0,0,-,0,0.00,1,RHB,0,0,0,0
-46284961,Muhammad Shoaib,9726452,Shikarpur Stallions,3,1,0,0,-,0,0.00,2,RHB,0,0,0,0
 36779682,Talha Altaf,9726452,Shikarpur Stallions,4,1,0,0,-,0,0.00,3,RHB,0,0,0,0
+39406043,M Ibraheem Shaikh,9726452,Shikarpur Stallions,4,1,0,0,-,1,0.00,2,RHB,0,0,0,0
 39559874,M Anwar,9726458,Fazilpur Falcons,4,1,0,0,-,1,0.00,1,RHB,0,0,0,0
 46284960,Muhammad Monis Anees,9726452,Shikarpur Stallions,4,1,0,0,-,0,0.00,1,RHB,0,0,0,0
 46285762,Muhammad Furqan,9726488,Kot Bahadur Shah Bulls,4,1,0,0,-,0,0.00,1,RHB,0,0,0,0
@@ -84,10 +87,11 @@ player_id,name,team_id,team_name,total_match,innings,total_runs,highest_run,aver
 39871645,Naeem Hussain,9726448,Macchike Mustangs,1,0,0,0,-,0,0,0,-,0,0,0,0
 40436118,Muhammad Usman Liaquat,9726458,Fazilpur Falcons,1,0,0,0,-,0,0,0,-,0,0,0,0
 46284759,Muhammad Imran Khan,9726462,Bubak Blasters,1,0,0,0,-,0,0,0,-,0,0,0,0
+46284762,Muhammad Yousuf,9726462,Bubak Blasters,1,0,0,0,-,0,0,0,-,0,0,0,0
 46284764,Abdemunaf Kalimee,9726462,Bubak Blasters,1,0,0,0,-,0,0,0,-,0,0,0,0
+46284956,Muhammad Kashif Khan,9726452,Shikarpur Stallions,1,0,0,0,-,0,0,0,-,0,0,0,0
 46284957,Ali Tariq,9726452,Shikarpur Stallions,1,0,0,0,-,0,0,0,-,0,0,0,0
 46284964,Muhammad Maroof Hussain,9726452,Shikarpur Stallions,1,0,0,0,-,0,0,0,-,0,0,0,0
-46284965,Umair Abdul Moqeet,9726452,Shikarpur Stallions,1,0,0,0,-,0,0,0,-,0,0,0,0
 46285107,Fahim Wahid Motiwala,9726479,Port Qasim Panthers,1,0,0,0,-,0,0,0,-,0,0,0,0
 46285377,Muhammad Izaan Khan,9726458,Fazilpur Falcons,1,0,0,0,-,0,0,0,-,0,0,0,0
 46285379,Tahir Mahmood,9726458,Fazilpur Falcons,1,0,0,0,-,0,0,0,-,0,0,0,0
@@ -95,7 +99,6 @@ player_id,name,team_id,team_name,total_match,innings,total_runs,highest_run,aver
 46285767,Muhammad Bilal,9726488,Kot Bahadur Shah Bulls,1,0,0,0,-,0,0,0,-,0,0,0,0
 46286000,Fraz Asif,9726435,Mahmoodkot Mavericks,1,0,0,0,-,0,0,0,-,0,0,0,0
 46286003,Shirjeel Agha,9726435,Mahmoodkot Mavericks,1,0,0,0,-,0,0,0,-,0,0,0,0
-24488627,Ammar,9726462,Bubak Blasters,2,0,0,0,-,0,0,0,RHB,0,0,0,0
 36440987,Muhammad Hassan,9726458,Fazilpur Falcons,2,0,0,0,-,0,0,0,-,0,0,0,0
 36508493,Ali Saleem Kolsawala,9726479,Port Qasim Panthers,2,0,0,0,-,0,0,0,-,0,0,0,0
 39406190,Umair Ahmed Siddiqui,9726448,Macchike Mustangs,2,0,0,0,-,0,0,0,RHB,0,0,0,0
@@ -103,13 +106,12 @@ player_id,name,team_id,team_name,total_match,innings,total_runs,highest_run,aver
 39606012,Haroon Qazi,9726435,Mahmoodkot Mavericks,2,0,0,0,-,0,0,0,RHB,0,0,0,0
 39606355,Kafeel Ahmed,9726479,Port Qasim Panthers,2,0,0,0,-,0,0,0,RHB,0,0,0,0
 46284761,Aqib Muneer,9726462,Bubak Blasters,2,0,0,0,-,0,0,0,-,0,0,0,0
-46284962,Muhammad Riaz Ahmed,9726452,Shikarpur Stallions,2,0,0,0,-,0,0,0,-,0,0,0,0
-46285376,Shayan Baig,9726458,Fazilpur Falcons,2,0,0,0,-,0,0,0,-,0,0,0,0
+46285376,Shayan Baig,9726458,Fazilpur Falcons,2,0,0,0,-,0,0,0,RHB,0,0,0,0
 46285591,Aftab Ahmed Khan,9726471,Keamari Kings,2,0,0,0,-,0,0,0,-,0,0,0,0
 46285765,Malik Waqas,9726488,Kot Bahadur Shah Bulls,2,0,0,0,-,0,0,0,-,0,0,0,0
 18635218,Khalil Bugti,9726448,Macchike Mustangs,3,0,0,0,-,0,0,0,RHB,0,0,0,0
+24488627,Ammar,9726462,Bubak Blasters,3,0,0,0,-,0,0,0,RHB,0,0,0,0
 36919677,Rashid Jahanger,9726462,Bubak Blasters,3,0,0,0,-,0,0,0,-,0,0,0,0
-46284760,Afnan Ainul Yaqin Shaikh,9726462,Bubak Blasters,3,0,0,0,-,0,0,0,-,0,0,0,0
 46285108,Syed Usman Ali,9726479,Port Qasim Panthers,3,0,0,0,-,0,0,0,-,0,0,0,0
 46285378,Zafer Naveed,9726458,Fazilpur Falcons,3,0,0,0,-,0,0,0,-,0,0,0,0
 46285380,Mudassir Ali,9726458,Fazilpur Falcons,3,0,0,0,-,0,0,0,-,0,0,0,0
@@ -119,6 +121,7 @@ player_id,name,team_id,team_name,total_match,innings,total_runs,highest_run,aver
 21802275,Asgher,9726435,Mahmoodkot Mavericks,4,0,0,0,-,0,0,0,-,0,0,0,0
 36970209,Muhammad Khursheed,9726471,Keamari Kings,4,0,0,0,-,0,0,0,RHB,0,0,0,0
 39406039,Muzammil Kholia,9726435,Mahmoodkot Mavericks,4,0,0,0,-,0,0,0,RHB,0,0,0,0
+46284760,Afnan Ainul Yaqin Shaikh,9726462,Bubak Blasters,4,0,0,0,-,0,0,0,-,0,0,0,0
 46285589,Arif Hamid,9726471,Keamari Kings,4,0,0,0,-,0,0,0,-,0,0,0,0
 46286002,Shahbaz Amin,9726435,Mahmoodkot Mavericks,4,0,0,0,-,0,0,0,-,0,0,0,0
 46286129,Hassan Ahmed Security,9726448,Macchike Mustangs,4,0,0,0,-,0,0,0,-,0,0,0,0
