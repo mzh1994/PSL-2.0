@@ -192,7 +192,7 @@ def load_compliance_log(path: str):
 
 
 def compliance_matrix_page(squads_df: pd.DataFrame):
-    st.subheader("📋 Team Participation Matrix")
+    st.subheader("📋 PSL Compliance Matrix")
     st.markdown(
         '<div class="small">Select a team to see a simple tick/cross view by match. '
         'No percentages — just who played.</div>',
@@ -200,16 +200,16 @@ def compliance_matrix_page(squads_df: pd.DataFrame):
     )
 
     # --- Diagnostics (helps avoid reading wrong files) ---
-    with st.expander("Diagnostics", expanded=False):
-        st.write("BASE_DIR:", BASE_DIR)
-        st.write("Compliance file:", COMPLIANCE_XLSX, "✅" if os.path.exists(COMPLIANCE_XLSX) else "❌ (missing)")
-        st.write("Squads file:", SQUADS_XLSX, "✅" if os.path.exists(SQUADS_XLSX) else "❌ (missing)")
-        if os.path.exists(COMPLIANCE_XLSX):
-            try:
-                xls = pd.ExcelFile(COMPLIANCE_XLSX)
-                st.write("Compliance sheets:", xls.sheet_names)
-            except Exception as e:
-                st.write("Could not read compliance sheets:", e)
+    ## with st.expander("Diagnostics", expanded=False):
+    ##    st.write("BASE_DIR:", BASE_DIR)
+    ##    st.write("Compliance file:", COMPLIANCE_XLSX, "✅" if os.path.exists(COMPLIANCE_XLSX) else "❌ (missing)")
+    ##    st.write("Squads file:", SQUADS_XLSX, "✅" if os.path.exists(SQUADS_XLSX) else "❌ (missing)")
+    ##    if os.path.exists(COMPLIANCE_XLSX):
+    ##        try:
+    ##            xls = pd.ExcelFile(COMPLIANCE_XLSX)
+    ##            st.write("Compliance sheets:", xls.sheet_names)
+    ##        except Exception as e:
+    ##            st.write("Could not read compliance sheets:", e)
 
     matches_df, apps_df = load_compliance_log(COMPLIANCE_XLSX)
 
