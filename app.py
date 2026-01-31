@@ -380,7 +380,14 @@ def compliance_matrix_page(squads_df: pd.DataFrame):
     matrix_df = pd.DataFrame(rows)
     st.dataframe(matrix_df, use_container_width=True, hide_index=True)
 def build_component_scores(bat, bowl, field, mvp):
+    """
+    Build component score dictionaries keyed by clean_name(player),
+    so messy CSV names still match your canonical squad names.
+    """
+
+    # --------------------
     # Batting
+    # --------------------
     bname = pick_name_col(bat)
     runs_c = find_col(bat, ["runs"])
     sr_c   = find_col(bat, ["sr", "strike rate"])
@@ -391,67 +398,93 @@ def build_component_scores(bat, bowl, field, mvp):
 
     bat["__player__"] = bat[bname].astype(str).str.strip()
     bat_score = {}
+
     for _, r in bat.iterrows():
-        p = r["__player__"]
-        if not p or p.lower() == "nan":
+        p_raw = str(r["__player__"]).strip()
+        if not p_raw or p_raw.lower() == "nan":
             continue
+
+        key = clean_name(p_raw)  # ✅ normalized key
+
         runs = to_num(r.get(runs_c, 0)) if runs_c else 0
         sr   = to_num(r.get(sr_c, 0)) if sr_c else 0
         avg  = to_num(r.get(avg_c, 0)) if avg_c else 0
         inns = max(1.0, to_num(r.get(inns_c, 1))) if inns_c else 1.0
         f50  = to_num(r.get(f50_c, 0)) if f50_c else 0
         f100 = to_num(r.get(f100_c, 0)) if f100_c else 0
-        bat_score[p] = runs + (sr*0.6) + (avg*0.8) + (f50*10) + (f100*25) + (np.log(inns+1)*2)
 
+        bat_score[key] = runs + (sr * 0.6) + (avg * 0.8) + (f50 * 10) + (f100 * 25) + (np.log(inns + 1) * 2)
+
+    # --------------------
     # Bowling
+    # --------------------
     wname = pick_name_col(bowl)
     wk_c  = find_col(bowl, ["wkts", "wickets"])
     eco_c = find_col(bowl, ["econ", "economy"])
-    avg_c2= find_col(bowl, ["avg", "average"])
-    sr_c2 = find_col(bowl, ["sr", "strike rate"])
-    mat_c = find_col(bowl, ["mat", "matches"])
+    avg_c2 = find_col(bowl, ["avg", "average"])
+    sr_c2  = find_col(bowl, ["sr", "strike rate"])
+    mat_c  = find_col(bowl, ["mat", "matches"])
 
     bowl["__player__"] = bowl[wname].astype(str).str.strip()
     bowl_score = {}
+
     for _, r in bowl.iterrows():
-        p = r["__player__"]
-        if not p or p.lower() == "nan":
+        p_raw = str(r["__player__"]).strip()
+        if not p_raw or p_raw.lower() == "nan":
             continue
+
+        key = clean_name(p_raw)  # ✅ normalized key
+
         wk  = to_num(r.get(wk_c, 0)) if wk_c else 0
         eco = to_num(r.get(eco_c, 0)) if eco_c else 0
-        avg2= to_num(r.get(avg_c2, 0)) if avg_c2 else 0
-        sr2 = to_num(r.get(sr_c2, 0)) if sr_c2 else 0
-        mat = max(1.0, to_num(r.get(mat_c, 1))) if mat_c else 1.0
-        bowl_score[p] = (wk*25) + (np.log(mat+1)*2) - (eco*8) - (avg2*0.6) - (sr2*0.4)
+        avg2 = to_num(r.get(avg_c2, 0)) if avg_c2 else 0
+        sr2  = to_num(r.get(sr_c2, 0)) if sr_c2 else 0
+        mat  = max(1.0, to_num(r.get(mat_c, 1))) if mat_c else 1.0
 
+        bowl_score[key] = (wk * 25) + (np.log(mat + 1) * 2) - (eco * 8) - (avg2 * 0.6) - (sr2 * 0.4)
+
+    # --------------------
     # Fielding
+    # --------------------
     fname = pick_name_col(field)
     ct_c  = find_col(field, ["catches", "ct"])
     ro_c  = find_col(field, ["run out", "runouts", "ro"])
 
     field["__player__"] = field[fname].astype(str).str.strip()
     field_score = {}
+
     for _, r in field.iterrows():
-        p = r["__player__"]
-        if not p or p.lower() == "nan":
+        p_raw = str(r["__player__"]).strip()
+        if not p_raw or p_raw.lower() == "nan":
             continue
+
+        key = clean_name(p_raw)  # ✅ normalized key
+
         ct = to_num(r.get(ct_c, 0)) if ct_c else 0
         ro = to_num(r.get(ro_c, 0)) if ro_c else 0
-        field_score[p] = (ct*8) + (ro*10)
 
+        field_score[key] = (ct * 8) + (ro * 10)
+
+    # --------------------
     # MVP
+    # --------------------
     mname = pick_name_col(mvp)
     pts_c = find_col(mvp, ["points", "pts", "score"])
 
     mvp["__player__"] = mvp[mname].astype(str).str.strip()
     mvp_score = {}
+
     for _, r in mvp.iterrows():
-        p = r["__player__"]
-        if not p or p.lower() == "nan":
+        p_raw = str(r["__player__"]).strip()
+        if not p_raw or p_raw.lower() == "nan":
             continue
-        mvp_score[p] = to_num(r.get(pts_c, 0)) if pts_c else 0
+
+        key = clean_name(p_raw)  # ✅ normalized key
+
+        mvp_score[key] = to_num(r.get(pts_c, 0)) if pts_c else 0
 
     return bat_score, bowl_score, field_score, mvp_score
+
 
 @st.cache_data(show_spinner=False)
 def build_player_ratings_and_components():
@@ -462,11 +495,16 @@ def build_player_ratings_and_components():
         pd.read_csv(S02["bat"]), pd.read_csv(S02["bowl"]), pd.read_csv(S02["field"]), pd.read_csv(S02["mvp"])
     )
 
-    players = sorted(set().union(*[set(d.keys()) for d in s1_maps], *[set(d.keys()) for d in s2_maps]))
+    # Build canonical player list from squads
+    squads = load_squads()
+    players = squads["Player"].astype(str).tolist()
+
+    player_key_map = {p: clean_name(p) for p in players}
+
 
     def blended(comp_idx):
-        v1 = pd.Series({p: float(s1_maps[comp_idx].get(p, 0)) for p in players})
-        v2 = pd.Series({p: float(s2_maps[comp_idx].get(p, 0)) for p in players})
+        v1 = pd.Series({p: float(s1_maps[comp_idx].get(player_key_map[p], 0)) for p in players})
+        v2 = pd.Series({p: float(s2_maps[comp_idx].get(player_key_map[p], 0)) for p in players})
         z1 = zscore(v1); z2 = zscore(v2)
         return ((1 - W_RECENT)*z1 + W_RECENT*z2).replace([np.inf, -np.inf], 0).fillna(0)
 
@@ -779,6 +817,30 @@ input::placeholder {{ color: rgba(100,116,139,0.90) !important; }}
 /* Ensure button text stays readable on light buttons */
 .stButton button {{ color: #0b1220 !important; }}
 
+/* ============================= */
+/* FIX: Invisible button text on dark backgrounds */
+/* ============================= */
+
+/* Team tile buttons: "Select" */
+.tileBtn .stButton > button {{
+  color: rgba(245,247,255,0.96) !important;   /* WHITE text */
+}}
+
+/* Playing XI action buttons (Auto-pick / Reset) */
+.stButton > button {{
+  color: rgba(245,247,255,0.96) !important;   /* WHITE text */
+}}
+
+/* Disabled buttons still readable */
+.stButton > button:disabled {{
+  color: rgba(245,247,255,0.55) !important;
+}}
+
+.stButton > button:hover {{
+  color: #ffffff !important;
+}}
+
+
 </style>
 
 <div class="topbar">
@@ -847,7 +909,7 @@ def stats_chart_with_labels(player, comp_df):
         tooltip=["Metric", alt.Tooltip("Score:Q", format=".2f")]
     )
 
-    labels = alt.Chart(df).mark_text(dy=-8, fontWeight="bold").encode(
+    labels = alt.Chart(df).mark_text(dy=-8, fontWeight="bold", color = "white").encode(
         x=alt.X("Metric:N", sort=None),
         y=alt.Y("Score:Q"),
         text=alt.Text("Score:Q", format=".2f")
