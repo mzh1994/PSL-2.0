@@ -422,8 +422,8 @@ def compliance_matrix_page(squads_df: pd.DataFrame):
         else:
             for mid in team_match_ids:
                 row[label_by_mid[mid]] = "✅" if mid in played else "❌"
-            row["Total Team Matches"] = total_team_matches
             row["Matches Played"] = len(played)
+            row["Total Team Matches"] = total_team_matches
 
         rows.append(row)
 
