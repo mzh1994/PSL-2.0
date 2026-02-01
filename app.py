@@ -227,7 +227,7 @@ def compliance_matrix_page(squads_df: pd.DataFrame):
     # -----------------------------
     show = st.radio(
         "Show",
-        ["All", "Squad", "Managers", "Mentors", "Supporters"],
+        ["All", "Squad", "Managers", "Mentors", "Supporters", "Brand Ambassadors"],
         horizontal=True,
         index=0,
         key="cm_filter"
@@ -377,6 +377,8 @@ def compliance_matrix_page(squads_df: pd.DataFrame):
 
     def role_bucket(role: str) -> str:
         r = str(role).strip().lower()
+        if "brand" in r and "ambassador" in r:
+            return "Brand Ambassador"
         if "manager" in r:
             return "Manager"
         if "mentor" in r:
@@ -414,7 +416,7 @@ def compliance_matrix_page(squads_df: pd.DataFrame):
         row = {"Player's Name": pname, "TRole": trole}
 
         # Staff rows: show "—" (not counted)
-        if trole in ("Manager", "Mentor", "Supporter"):
+        if trole in ("Manager", "Mentor", "Supporter", "Brand Ambassador"):
             for mid in team_match_ids:
                 row[label_by_mid[mid]] = "—"
             row["Total Team Matches"] = total_team_matches
@@ -440,6 +442,8 @@ def compliance_matrix_page(squads_df: pd.DataFrame):
         matrix_df = matrix_df[matrix_df["TRole"] == "Mentor"]
     elif show == "Supporters":
         matrix_df = matrix_df[matrix_df["TRole"] == "Supporter"]
+    elif show == "Brand Ambassadors":
+        matrix_df = matrix_df[matrix_df["TRole"] == "Brand Ambassador"]
 
     # -----------------------------
     # Render table (bigger height)
