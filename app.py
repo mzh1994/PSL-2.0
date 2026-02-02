@@ -918,6 +918,22 @@ input::placeholder {{ color: rgba(100,116,139,0.90) !important; }}
   color: #ffffff !important;
 }}
 
+/* === FIX: Radio button label text color === */
+div[role="radiogroup"] label {{
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-weight: 600;
+}}
+
+/* Optional: make radio description text white too */
+div[role="radiogroup"] span {{
+    color: rgba(255, 255, 255, 0.95) !important;
+}}
+
+/* Optional: spacing & readability */
+div[role="radiogroup"] {{
+    gap: 14px;
+}}
+
 
 </style>
 
