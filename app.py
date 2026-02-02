@@ -430,6 +430,15 @@ def compliance_matrix_page(squads_df: pd.DataFrame):
         rows.append(row)
 
     matrix_df = pd.DataFrame(rows)
+    
+    # --- Force column order: Matches Played BEFORE Total Team Matches ---
+    base_cols = ["Player's Name", "TRole"]
+    tail_cols = ["Matches Played", "Total Team Matches"]
+
+    # match columns are everything between base and tail
+    match_cols = [c for c in matrix_df.columns if c not in base_cols + tail_cols]
+
+    matrix_df = matrix_df[base_cols + match_cols + tail_cols]
 
     # -----------------------------
     # Apply filter (WORKING)
@@ -904,19 +913,12 @@ input::placeholder {{ color: rgba(100,116,139,0.90) !important; }}
   color: rgba(245,247,255,0.96) !important;   /* WHITE text */
 }}
 
-/* Playing XI action buttons (Auto-pick / Reset) */
-.stButton > button {{
-  color: rgba(245,247,255,0.96) !important;   /* WHITE text */
-}}
 
 /* Disabled buttons still readable */
 .stButton > button:disabled {{
   color: rgba(245,247,255,0.55) !important;
 }}
 
-.stButton > button:hover {{
-  color: #ffffff !important;
-}}
 
 /* === FIX: Radio button label text color === */
 div[role="radiogroup"] label {{
@@ -949,6 +951,41 @@ div[role="radiogroup"] span,
 div[role="radiogroup"] div[data-testid="stMarkdownContainer"] * {{
   color: rgba(255,255,255,0.95) !important;
   font-weight: 700 !important;
+}}
+
+/* =============================== */
+/* Dataframe header darker + bold  */
+/* =============================== */
+div[data-testid="stDataFrame"] thead tr th,
+div[data-testid="stDataFrame"] thead tr th * {{
+  color: rgba(25, 35, 55, 0.95) !important;   /* dark header text */
+  font-weight: 900 !important;
+}}
+
+/* Optional: slightly stronger header background */
+div[data-testid="stDataFrame"] thead tr th {{
+  background: rgba(255,255,255,0.88) !important;
+}}
+
+/* ============================= */
+/* Button text color rules (safe) */
+/* ============================= */
+
+/* Default buttons (white / light background) -> dark text */
+.stButton > button {{
+  color: #0b1220 !important;
+}}
+
+/* Primary buttons already dark text via your rule, keep it */
+
+/* Team tile buttons stay white text because background is dark */
+.tileBtn .stButton > button {{
+  color: rgba(245,247,255,0.96) !important;
+}}
+
+/* Hover: keep readable on light buttons */
+.stButton > button:hover {{
+  color: #0b1220 !important;
 }}
 
 
