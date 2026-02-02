@@ -934,6 +934,24 @@ div[role="radiogroup"] {{
     gap: 14px;
 }}
 
+/* =============================== */
+/* FORCE radio button text to white */
+/* (Streamlit/BaseWeb-safe)         */
+/* =============================== */
+div[role="radiogroup"] * {{
+  color: rgba(255,255,255,0.95) !important;
+}}
+
+/* extra safety for common wrappers */
+div[role="radiogroup"] label,
+div[role="radiogroup"] p,
+div[role="radiogroup"] span,
+div[role="radiogroup"] div[data-testid="stMarkdownContainer"] * {{
+  color: rgba(255,255,255,0.95) !important;
+  font-weight: 700 !important;
+}}
+
+
 
 </style>
 
