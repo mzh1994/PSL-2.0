@@ -395,41 +395,57 @@ def compliance_matrix_page(squads_df: pd.DataFrame):
     team_apps = apps_mapped.copy()
     if not team_apps.empty:
         team_apps["MatchID"] = pd.to_numeric(team_apps["MatchID"], errors="coerce")
+         # ensure name key exists (for fallback matching)
+        if "player_name_key" not in team_apps.columns and "Player" in team_apps.columns:
+            team_apps["player_name_key"] = team_apps["Player"].apply(clean_name)
+
         team_apps = team_apps.loc[
-            (team_apps["Team_canonical"] == str(team).strip()) &
-            (team_apps["MatchID"].isin(team_match_ids))
-        ].copy()
+        (team_apps["Team_canonical"] == str(team).strip()) &
+        (team_apps["MatchID"].isin(team_match_ids))
+         ].copy()
 
     # -----------------------------
     # Build matrix rows (+ TRole)
     # -----------------------------
+    # -----------------------------
+    # Build matrix rows (+ TRole)  ✅ for ALL roles
+    # -----------------------------
     rows = []
     for _, r in squad_team.sort_values(["TRole", "Player"]).iterrows():
-        pid = r.get("player_id", "")
+        pid = r.get("player_id", None)
         pname = r.get("Player", "")
         trole = r.get("TRole", "Squad")
+        pkey = r.get("player_name_key", clean_name(pname))
 
         played = set()
-        if not team_apps.empty and pid:
-            played = set(team_apps.loc[team_apps["player_id"] == pid, "MatchID"].dropna().astype(int).tolist())
+
+        if not team_apps.empty:
+            # Strong match by player_id (preferred)
+            if pid and "player_id" in team_apps.columns:
+                played = set(
+                team_apps.loc[team_apps["player_id"] == pid, "MatchID"]
+                .dropna().astype(int).tolist()
+                )
+
+            # Fallback match by normalized name key (covers staff or unmapped IDs)
+            if not played and "player_name_key" in team_apps.columns:
+                played = set(
+                team_apps.loc[team_apps["player_name_key"] == pkey, "MatchID"]
+                .dropna().astype(int).tolist()
+                )
 
         row = {"Player's Name": pname, "TRole": trole}
 
-        # Staff rows: show "—" (not counted)
-        if trole in ("Manager", "Mentor", "Supporter", "Brand Ambassador"):
-            for mid in team_match_ids:
-                row[label_by_mid[mid]] = "—"
-            row["Total Team Matches"] = total_team_matches
-            row["Matches Played"] = "N/A"
-        else:
-            for mid in team_match_ids:
-                row[label_by_mid[mid]] = "✅" if mid in played else "❌"
-            row["Matches Played"] = len(played)
-            row["Total Team Matches"] = total_team_matches
+        for mid in team_match_ids:
+            row[label_by_mid[mid]] = "✅" if mid in played else "❌"
+
+        row["Matches Played"] = int(len(played))          # ✅ 0 if none
+        row["Total Team Matches"] = int(total_team_matches)
 
         rows.append(row)
 
     matrix_df = pd.DataFrame(rows)
+
     
     # --- Force column order: Matches Played BEFORE Total Team Matches ---
     base_cols = ["Player's Name", "TRole"]
