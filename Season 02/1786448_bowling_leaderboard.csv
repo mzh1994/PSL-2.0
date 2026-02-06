@@ -1,135 +1,142 @@
 player_id,name,team_id,team_name,total_match,innings,total_wickets,balls,highest_wicket,economy,SR,maidens,avg,runs,bowling_style,overs,dot_balls
-35966576,Saeed Iqbal,9726488,Kot Bahadur Shah Bulls,5,5,7,60,3,10.00,8.57,0,14.29,100,Right-arm fast,10.0,20
-39559874,M Anwar,9726458,Fazilpur Falcons,4,4,7,48,3,12.00,6.86,0,13.71,96,Right-arm fast,8.0,20
+39559874,M Anwar,9726458,Fazilpur Falcons,5,5,9,60,3,10.80,6.67,0,12,108,Right-arm fast,10.0,25
+35966576,Saeed Iqbal,9726488,Kot Bahadur Shah Bulls,6,6,9,72,3,11.08,8.00,0,14.78,133,Right-arm fast,12.0,23
 46441477,Zohaib Yaqoob,9726435,Mahmoodkot Mavericks,4,4,7,30,3,13.60,4.29,0,9.71,68,Right-arm medium,5.0,13
-39406041,Fazil Hussain,9726488,Kot Bahadur Shah Bulls,5,5,6,60,2,12.50,10.00,0,20.83,125,Right-arm fast,10.0,23
+39406041,Fazil Hussain,9726488,Kot Bahadur Shah Bulls,6,6,7,72,2,13.75,10.29,0,23.57,165,Right-arm fast,12.0,27
+46433130,Hafiz Mohsin Zahid,9726471,Keamari Kings,7,6,6,66,2,13.18,11.00,0,24.17,145,Right-arm medium,11.0,20
+16435832,Mazhar Iqbal,9726471,Keamari Kings,7,6,5,72,2,11.83,14.40,0,28.4,142,Right-arm fast,12.0,23
 39405270,Syed Ather Waqar,9726435,Mahmoodkot Mavericks,4,4,5,36,2,12.17,7.20,0,14.6,73,Right-arm Off Break,6.0,12
-46285375,Akram Alizai,9726458,Fazilpur Falcons,4,4,4,48,2,8.88,12.00,0,17.75,71,Right-arm medium,8.0,25
-16435832,Mazhar Iqbal,9726471,Keamari Kings,5,5,4,60,2,12.80,15.00,0,32,128,Right-arm fast,10.0,18
-46285762,Muhammad Furqan,9726488,Kot Bahadur Shah Bulls,5,5,4,60,1,12.80,15.00,0,32,128,Right-arm medium,10.0,14
-46433130,Hafiz Mohsin Zahid,9726471,Keamari Kings,5,5,4,54,2,13.00,13.50,0,29.25,117,Right-arm medium,9.0,18
-39406194,Shoaib Rizvi,9726488,Kot Bahadur Shah Bulls,5,5,4,60,2,13.70,15.00,0,34.25,137,Right-arm fast,10.0,15
-38331072,Naeem Ahmad,9726462,Bubak Blasters,5,5,4,42,1,16.14,10.50,0,28.25,113,Right-arm medium,7.0,10
-39406039,Muzammil Kholia,9726435,Mahmoodkot Mavericks,4,3,4,24,3,16.50,6.00,0,16.5,66,Right-arm fast,4.0,7
-44504593,Agha Hamza,9726462,Bubak Blasters,5,4,3,48,2,5.62,16.00,0,15,45,Right-arm fast,8.0,27
-39559828,Umer Farooq,9726448,Macchike Mustangs,5,4,3,48,2,11.38,16.00,0,30.33,91,Right-arm fast,8.0,19
-39559873,Ghavir Imran,9726458,Fazilpur Falcons,4,4,3,48,1,11.38,16.00,0,30.33,91,Right-arm fast,8.0,19
-46284760,Afnan Ainul Yaqin Shaikh,9726462,Bubak Blasters,4,4,3,30,2,11.60,10.00,0,19.33,58,Right-arm medium,5.0,7
-39606522,Sheikh Khalid Zahid,9726462,Bubak Blasters,5,5,3,48,2,13.75,16.00,0,36.67,110,Right-arm fast,8.0,12
-40212612,M Kaleem Ullah,9726479,Port Qasim Panthers,5,3,3,36,1,13.83,12.00,0,27.67,83,Right-arm fast,6.0,10
-36779682,Talha Altaf,9726452,Shikarpur Stallions,4,4,3,36,1,14.00,12.00,0,28,84,Right-arm fast,6.0,9
-46657089,M Nasir Nawaz,9726479,Port Qasim Panthers,4,4,3,38,2,14.37,12.67,0,30.33,91,Right-arm medium,6.2,11
-39606524,Kamran Abdali,9726462,Bubak Blasters,5,5,3,48,2,15.00,16.00,0,40,120,Right-arm fast,8.0,14
-46284959,Sabir Hussain,9726452,Shikarpur Stallions,5,5,3,52,2,15.35,17.33,0,44.33,133,Right-arm Off Break,8.4,14
-46286129,Hassan Ahmed Security,9726448,Macchike Mustangs,4,4,3,36,2,15.50,12.00,0,31,93,Right-arm medium,6.0,13
-40631414,Muhammad Areeb,9726458,Fazilpur Falcons,4,4,2,36,1,9.33,18.00,1,28,56,Right-arm fast,6.0,20
-46285587,Syed Aun Burhan Ali,9726471,Keamari Kings,5,3,2,30,2,9.40,15.00,0,23.5,47,Right-arm medium,5.0,14
-39606001,Danish Ahmed,9726435,Mahmoodkot Mavericks,4,4,2,48,2,10.50,24.00,0,42,84,Right-arm fast,8.0,20
-46286002,Shahbaz Amin,9726435,Mahmoodkot Mavericks,4,4,2,48,2,12.00,24.00,0,48,96,Right-arm medium,8.0,18
-39406037,Waseem Ullah Khan,9726488,Kot Bahadur Shah Bulls,5,5,2,54,1,12.78,27.00,0,57.5,115,Right-arm fast,9.0,14
-46285378,Zafer Naveed,9726458,Fazilpur Falcons,3,3,2,24,1,15.00,12.00,0,30,60,Right-arm medium,4.0,10
-46286131,Shahzaman,9726448,Macchike Mustangs,5,5,2,54,2,15.56,27.00,0,70,140,Right-arm medium,9.0,18
+46285762,Muhammad Furqan,9726488,Kot Bahadur Shah Bulls,6,6,5,72,1,14.25,14.40,0,34.2,171,Right-arm medium,12.0,17
+38331072,Naeem Ahmad,9726462,Bubak Blasters,6,6,5,54,1,15.67,10.80,0,28.2,141,Right-arm medium,9.0,14
+44504593,Agha Hamza,9726462,Bubak Blasters,6,5,4,60,2,5.70,15.00,0,14.25,57,Right-arm fast,10.0,36
+46285375,Akram Alizai,9726458,Fazilpur Falcons,5,5,4,60,2,7.70,15.00,0,19.25,77,Right-arm medium,10.0,33
+46657089,M Nasir Nawaz,9726479,Port Qasim Panthers,5,5,4,50,2,12.96,12.50,0,27,108,Right-arm medium,8.2,16
+46286129,Hassan Ahmed Security,9726448,Macchike Mustangs,6,5,4,42,2,14.57,10.50,0,25.5,102,Right-arm medium,7.0,16
+39406194,Shoaib Rizvi,9726488,Kot Bahadur Shah Bulls,6,6,4,72,2,14.67,18.00,0,44,176,Right-arm fast,12.0,17
+39406039,Muzammil Kholia,9726435,Mahmoodkot Mavericks,5,4,4,30,3,15.60,7.50,0,19.5,78,Right-arm fast,5.0,9
+40631414,Muhammad Areeb,9726458,Fazilpur Falcons,5,5,3,48,1,9.50,16.00,1,25.33,76,Right-arm fast,8.0,26
+39559873,Ghavir Imran,9726458,Fazilpur Falcons,5,5,3,60,1,10.80,20.00,0,36,108,Right-arm fast,10.0,21
+39559828,Umer Farooq,9726448,Macchike Mustangs,7,4,3,48,2,11.38,16.00,0,30.33,91,Right-arm fast,8.0,19
+46286002,Shahbaz Amin,9726435,Mahmoodkot Mavericks,5,5,3,60,2,12.50,20.00,0,41.67,125,Right-arm medium,10.0,21
+24488629,Adnan,9726448,Macchike Mustangs,7,4,3,30,2,12.60,10.00,0,21,63,Right-arm medium,5.0,8
+46284760,Afnan Ainul Yaqin Shaikh,9726462,Bubak Blasters,5,5,3,42,2,12.71,14.00,0,29.67,89,Right-arm medium,7.0,8
+46285378,Zafer Naveed,9726458,Fazilpur Falcons,4,4,3,30,1,13.20,10.00,0,22,66,Right-arm medium,5.0,12
+40212612,M Kaleem Ullah,9726479,Port Qasim Panthers,6,3,3,36,1,13.83,12.00,0,27.67,83,Right-arm fast,6.0,10
+46284959,Sabir Hussain,9726452,Shikarpur Stallions,6,5,3,52,2,15.35,17.33,0,44.33,133,Right-arm Off Break,8.4,14
+39606522,Sheikh Khalid Zahid,9726462,Bubak Blasters,6,6,3,60,2,15.50,20.00,0,51.67,155,Right-arm fast,10.0,12
+36779682,Talha Altaf,9726452,Shikarpur Stallions,5,5,3,42,1,15.71,14.00,0,36.67,110,Right-arm fast,7.0,9
+39606355,Kafeel Ahmed,9726479,Port Qasim Panthers,4,4,3,42,2,16.71,14.00,0,39,117,Right-arm fast,7.0,13
+39606524,Kamran Abdali,9726462,Bubak Blasters,6,6,3,54,2,16.89,18.00,0,50.67,152,Right-arm fast,9.0,14
+39606001,Danish Ahmed,9726435,Mahmoodkot Mavericks,5,5,2,60,2,9.90,30.00,0,49.5,99,Right-arm fast,10.0,27
+39405272,Syed Saad Naseem,9726448,Macchike Mustangs,2,2,2,12,1,10.50,6.00,0,10.5,21,Right-arm Off Break,2.0,5
+18494553,Muhammad Hammad,9726448,Macchike Mustangs,7,6,2,60,1,10.50,30.00,0,52.5,105,Right-arm fast,10.0,19
+46285587,Syed Aun Burhan Ali,9726471,Keamari Kings,7,4,2,42,2,11.43,21.00,0,40,80,Right-arm medium,7.0,18
+36849912,Munawar Ali,9726458,Fazilpur Falcons,5,5,2,32,2,12.19,16.00,0,32.5,65,Right-arm fast,5.2,12
+39406037,Waseem Ullah Khan,9726488,Kot Bahadur Shah Bulls,6,6,2,66,1,15.36,33.00,0,84.5,169,Right-arm fast,11.0,16
+46286131,Shahzaman,9726448,Macchike Mustangs,7,6,2,60,2,15.60,30.00,0,78,156,Right-arm medium,10.0,19
+10643363,Arman Bari,9726435,Mahmoodkot Mavericks,5,2,2,18,2,17.67,9.00,0,26.5,53,Right-arm medium,3.0,3
 36508493,Ali Saleem Kolsawala,9726479,Port Qasim Panthers,3,2,2,18,2,21.33,9.00,0,32,64,Right-arm medium,3.0,5
-39405272,Syed Saad Naseem,9726448,Macchike Mustangs,1,1,1,6,1,5.00,6.00,0,5,5,Right-arm Off Break,1.0,3
-24488627,Ammar,9726462,Bubak Blasters,3,1,1,12,1,6.50,12.00,0,13,13,Right-arm medium,2.0,3
-18494553,Muhammad Hammad,9726448,Macchike Mustangs,5,5,1,54,1,10.22,54.00,0,92,92,Right-arm fast,9.0,18
-24488629,Adnan,9726448,Macchike Mustangs,5,3,1,18,1,14.33,18.00,0,43,43,Right-arm medium,3.0,3
-39559822,Irttaza Hussain,9726448,Macchike Mustangs,5,2,1,18,1,14.33,18.00,0,43,43,Right-arm fast,3.0,5
-39606527,M Masood Tahir,9726462,Bubak Blasters,5,4,1,30,1,14.40,30.00,0,72,72,Right-arm Off Break,5.0,14
+39406198,Waqas Ahmed,9726448,Macchike Mustangs,6,1,1,6,1,5.00,6.00,0,5,5,Right-arm medium,1.0,2
+24488627,Ammar,9726462,Bubak Blasters,4,1,1,12,1,6.50,12.00,0,13,13,Right-arm medium,2.0,3
+39406190,Umair Ahmed Siddiqui,9726448,Macchike Mustangs,4,1,1,12,1,8.50,12.00,0,17,17,Right-arm fast,2.0,2
+39559822,Irttaza Hussain,9726448,Macchike Mustangs,7,2,1,18,1,14.33,18.00,0,43,43,Right-arm fast,3.0,5
+39606527,M Masood Tahir,9726462,Bubak Blasters,6,4,1,30,1,14.40,30.00,0,72,72,Right-arm Off Break,5.0,14
+38956015,Abeer Kazmi,9726479,Port Qasim Panthers,6,2,1,24,1,14.50,24.00,0,58,58,Right-arm medium,4.0,5
+39446448,Ahmed Jung,9726479,Port Qasim Panthers,5,5,1,60,1,14.70,60.00,0,147,147,Right-arm medium,10.0,18
+21802275,Asgher,9726435,Mahmoodkot Mavericks,5,5,1,36,1,14.83,36.00,0,89,89,Right-arm medium,6.0,11
+39446447,Umer,9726452,Shikarpur Stallions,5,5,1,31,1,14.90,31.00,0,77,77,Right-arm medium,5.1,8
 46285591,Aftab Ahmed Khan,9726471,Keamari Kings,3,2,1,12,1,15.00,12.00,0,30,30,Left-arm medium,2.0,2
-39446447,Umer,9726452,Shikarpur Stallions,4,4,1,25,1,15.12,25.00,0,63,63,Right-arm medium,4.1,8
-39871645,Naeem Hussain,9726448,Macchike Mustangs,2,2,1,18,1,16.00,18.00,0,48,48,Right-arm medium,3.0,7
-24488628,Mehab,9726471,Keamari Kings,4,2,1,18,1,16.33,18.00,0,49,49,Right-arm fast,3.0,6
-39586115,Junaid Iqbal,9726471,Keamari Kings,5,3,1,22,1,16.36,22.00,0,60,60,Right-arm medium,3.4,6
-36970209,Muhammad Khursheed,9726471,Keamari Kings,5,2,1,18,1,16.67,18.00,0,50,50,Right-arm fast,3.0,6
+39871645,Naeem Hussain,9726448,Macchike Mustangs,4,3,1,24,1,15.50,24.00,0,62,62,Right-arm medium,4.0,9
+18635671,Ali Hashmi,9726479,Port Qasim Panthers,5,3,1,30,1,16.20,30.00,0,81,81,Right-arm fast,5.0,7
+39586115,Junaid Iqbal,9726471,Keamari Kings,7,4,1,28,1,16.29,28.00,0,76,76,Right-arm medium,4.4,6
+24488628,Mehab,9726471,Keamari Kings,6,2,1,18,1,16.33,18.00,0,49,49,Right-arm fast,3.0,6
+36970209,Muhammad Khursheed,9726471,Keamari Kings,7,3,1,24,1,17.00,24.00,0,68,68,Right-arm fast,4.0,7
 39446451,Ahsan,9726452,Shikarpur Stallions,4,4,1,36,1,17.33,36.00,0,104,104,Right-arm fast,6.0,9
 18635218,Khalil Bugti,9726448,Macchike Mustangs,4,4,1,24,1,18.25,24.00,0,73,73,Right-arm Off Break,4.0,4
-18635671,Ali Hashmi,9726479,Port Qasim Panthers,4,2,1,18,1,19.00,18.00,0,57,57,Right-arm fast,3.0,2
-39606355,Kafeel Ahmed,9726479,Port Qasim Panthers,3,3,1,30,1,20.60,30.00,0,103,103,Right-arm fast,5.0,6
-46284763,Muhammad Ahsan Marfani,9726462,Bubak Blasters,1,1,0,6,0,6.00,0.00,0,0,6,Right-arm fast,1.0,2
-39405381,M Suleman Khan,9726462,Bubak Blasters,5,1,0,6,0,8.00,0.00,0,0,8,Right-arm fast,1.0,1
+39607262,Zubair Zab,9726452,Shikarpur Stallions,6,6,1,48,1,21.38,48.00,0,171,171,Right-arm medium,8.0,5
+39405381,M Suleman Khan,9726462,Bubak Blasters,6,1,0,6,0,8.00,0.00,0,0,8,Right-arm fast,1.0,1
 46285588,Muhammad Moiz Khan,9726471,Keamari Kings,4,1,0,6,0,9.00,0.00,0,0,9,Right-arm medium,1.0,1
 39404848,Umar Nisar,9726452,Shikarpur Stallions,2,1,0,12,0,10.50,0.00,0,0,21,Right-arm fast,2.0,3
 39446449,Asad Ahmed,9726452,Shikarpur Stallions,5,3,0,9,0,10.67,0.00,0,0,16,Right-arm medium,1.3,2
 46286130,Muhammad Sajid,9726448,Macchike Mustangs,4,1,0,6,0,12.00,0.00,0,0,12,Right-arm medium,1.0,0
 46286132,Aamir Qarnain,9726448,Macchike Mustangs,5,2,0,18,0,12.67,0.00,0,0,38,Right-arm medium,3.0,5
-40131221,Rayed Abdullah,9726471,Keamari Kings,4,3,0,30,0,14.00,0.00,0,0,70,Right-arm medium,5.0,10
+40131221,Rayed Abdullah,9726471,Keamari Kings,6,4,0,42,0,13.00,0.00,0,0,91,Right-arm medium,7.0,15
+46284763,Muhammad Ahsan Marfani,9726462,Bubak Blasters,2,2,0,12,0,13.00,0.00,0,0,26,Right-arm fast,2.0,4
 36919677,Rashid Jahanger,9726462,Bubak Blasters,3,1,0,8,0,14.25,0.00,0,0,19,Right-arm fast,1.2,2
-38956015,Abeer Kazmi,9726479,Port Qasim Panthers,5,1,0,12,0,14.50,0.00,0,0,29,Right-arm medium,2.0,2
-36849912,Munawar Ali,9726458,Fazilpur Falcons,4,4,0,26,0,14.77,0.00,0,0,64,Right-arm fast,4.2,6
-39606217,M Huzaif,9726479,Port Qasim Panthers,5,5,0,48,0,15.38,0.00,0,0,123,Right-arm fast,8.0,14
-39446448,Ahmed Jung,9726479,Port Qasim Panthers,4,4,0,48,0,15.75,0.00,0,0,126,Right-arm medium,8.0,13
+39606217,M Huzaif,9726479,Port Qasim Panthers,6,5,0,48,0,15.38,0.00,0,0,123,Right-arm fast,8.0,14
 19741699,Tabish,9726458,Fazilpur Falcons,4,1,0,6,0,16.00,0.00,0,0,16,Right-arm fast,1.0,1
-21802275,Asgher,9726435,Mahmoodkot Mavericks,4,4,0,30,0,16.20,0.00,0,0,81,Right-arm medium,5.0,9
-46285589,Arif Hamid,9726471,Keamari Kings,4,1,0,6,0,17.00,0.00,0,0,17,Left-arm medium,1.0,2
+39606009,Ahmad Rafe Noman Lodhi,9726435,Mahmoodkot Mavericks,3,3,0,24,0,17.00,0.00,0,0,68,Right-arm fast,4.0,5
+46285589,Arif Hamid,9726471,Keamari Kings,6,1,0,6,0,17.00,0.00,0,0,17,Left-arm medium,1.0,2
 39406043,M Ibraheem Shaikh,9726452,Shikarpur Stallions,4,2,0,11,0,18.00,0.00,0,0,33,Right-arm medium,1.5,1
-39606009,Ahmad Rafe Noman Lodhi,9726435,Mahmoodkot Mavericks,2,2,0,12,0,18.50,0.00,0,0,37,Right-arm fast,2.0,3
 39446548,Farrukh Anwar,9726479,Port Qasim Panthers,1,1,0,3,0,20.00,0.00,0,0,10,Right-arm fast,0.3,0
-46284957,Ali Tariq,9726452,Shikarpur Stallions,1,1,0,6,0,20.00,0.00,0,0,20,Right-arm medium,1.0,2
-39607262,Zubair Zab,9726452,Shikarpur Stallions,5,5,0,42,0,21.29,0.00,0,0,149,Right-arm medium,7.0,3
-46285108,Syed Usman Ali,9726479,Port Qasim Panthers,4,2,0,12,0,24.00,0.00,0,0,48,Right-arm fast,2.0,3
+46284957,Ali Tariq,9726452,Shikarpur Stallions,2,1,0,6,0,20.00,0.00,0,0,20,Right-arm medium,1.0,2
+46285108,Syed Usman Ali,9726479,Port Qasim Panthers,5,2,0,12,0,24.00,0.00,0,0,48,Right-arm fast,2.0,3
 46284759,Muhammad Imran Khan,9726462,Bubak Blasters,1,1,0,6,0,27.00,0.00,0,0,27,Right-arm medium,1.0,0
-10643363,Arman Bari,9726435,Mahmoodkot Mavericks,4,1,0,6,0,28.00,0.00,0,0,28,Right-arm medium,1.0,0
-39606012,Haroon Qazi,9726435,Mahmoodkot Mavericks,2,1,0,6,0,29.00,0.00,0,0,29,Right-arm fast,1.0,1
+39606012,Haroon Qazi,9726435,Mahmoodkot Mavericks,3,1,0,6,0,29.00,0.00,0,0,29,Right-arm fast,1.0,1
 46285109,Munir Jawaid,9726479,Port Qasim Panthers,5,1,0,6,0,32.00,0.00,0,0,32,Right-arm fast,1.0,1
-46284960,Muhammad Monis Anees,9726452,Shikarpur Stallions,4,1,0,1,0,42.00,0.00,0,0,7,Left-arm fast,0.1,0
-18635594,Idrers,9726488,Kot Bahadur Shah Bulls,5,0,,,,0.00,0.00,0,0,0,-,0.0,0
-18635937,Habib Ullah,9726488,Kot Bahadur Shah Bulls,5,0,,,,0.00,0.00,0,0,0,-,0.0,0
-21802280,Asif Hamid,9726479,Port Qasim Panthers,3,0,,,,0.00,0.00,0,0,0,Right-arm medium,0.0,0
-22922987,Waqas,9726458,Fazilpur Falcons,4,0,,,,0.00,0.00,0,0,0,Right-arm Off Break,0.0,0
+46284960,Muhammad Monis Anees,9726452,Shikarpur Stallions,5,1,0,1,0,42.00,0.00,0,0,7,Left-arm fast,0.1,0
+18635594,Idrers,9726488,Kot Bahadur Shah Bulls,6,0,,,,0.00,0.00,0,0,0,-,0.0,0
+18635937,Habib Ullah,9726488,Kot Bahadur Shah Bulls,6,0,,,,0.00,0.00,0,0,0,-,0.0,0
+21802280,Asif Hamid,9726479,Port Qasim Panthers,4,0,,,,0.00,0.00,0,0,0,Right-arm medium,0.0,0
+22922987,Waqas,9726458,Fazilpur Falcons,5,0,,,,0.00,0.00,0,0,0,Right-arm Off Break,0.0,0
 24488632,Janzaib,9726435,Mahmoodkot Mavericks,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
 24488635,Shakil,9726488,Kot Bahadur Shah Bulls,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
 32487566,Mehmood Shah,9726435,Mahmoodkot Mavericks,4,0,,,,0.00,0.00,0,0,0,Right-arm medium,0.0,0
 36440987,Muhammad Hassan,9726458,Fazilpur Falcons,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
-36472174,Fakhir Sohail,9726435,Mahmoodkot Mavericks,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
-36506476,Shabbir Iqbal,9726471,Keamari Kings,4,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
-39405097,Syed Musa Raza Zaidi,9726488,Kot Bahadur Shah Bulls,5,0,,,,0.00,0.00,0,0,0,-,0.0,0
-39405098,Irfan Shaikh,9726458,Fazilpur Falcons,4,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
-39405382,Majid Faraz,9726452,Shikarpur Stallions,1,0,,,,0.00,0.00,0,0,0,None,0.0,0
+36472174,Fakhir Sohail,9726435,Mahmoodkot Mavericks,5,0,,,,0.00,0.00,0,0,0,-,0.0,0
+36506476,Shabbir Iqbal,9726471,Keamari Kings,6,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+39405097,Syed Musa Raza Zaidi,9726488,Kot Bahadur Shah Bulls,6,0,,,,0.00,0.00,0,0,0,-,0.0,0
+39405098,Irfan Shaikh,9726458,Fazilpur Falcons,5,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+39405382,Majid Faraz,9726452,Shikarpur Stallions,2,0,,,,0.00,0.00,0,0,0,None,0.0,0
 39405383,Syed Hammad Ahmed,9726488,Kot Bahadur Shah Bulls,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
-39405902,Shabbir Sultan,9726488,Kot Bahadur Shah Bulls,5,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
-39406190,Umair Ahmed Siddiqui,9726448,Macchike Mustangs,2,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
-39406191,Umair Ahmed,9726488,Kot Bahadur Shah Bulls,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
-39406198,Waqas Ahmed,9726448,Macchike Mustangs,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
-39446452,M Usman,9726458,Fazilpur Falcons,3,0,,,,0.00,0.00,0,0,0,-,0.0,0
-39446546,Sheraz,9726471,Keamari Kings,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
-39446547,Jawwad Shafiq,9726471,Keamari Kings,3,0,,,,0.00,0.00,0,0,0,-,0.0,0
-39559847,M Aamir Khan,9726448,Macchike Mustangs,5,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
-39575879,Humays Khan,9726471,Keamari Kings,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
-39606210,Asad Mughni,9726462,Bubak Blasters,4,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+39405902,Shabbir Sultan,9726488,Kot Bahadur Shah Bulls,6,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+39406191,Umair Ahmed,9726488,Kot Bahadur Shah Bulls,5,0,,,,0.00,0.00,0,0,0,-,0.0,0
+39406192,Yahya Shahid,9726435,Mahmoodkot Mavericks,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+39446452,M Usman,9726458,Fazilpur Falcons,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
+39446546,Sheraz,9726471,Keamari Kings,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
+39446547,Jawwad Shafiq,9726471,Keamari Kings,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
+39559847,M Aamir Khan,9726448,Macchike Mustangs,7,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+39575879,Humays Khan,9726471,Keamari Kings,6,0,,,,0.00,0.00,0,0,0,-,0.0,0
+39606210,Asad Mughni,9726462,Bubak Blasters,5,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
 39606351,Saad Mansoor,9726479,Port Qasim Panthers,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
 39606516,Faisal Amir,9726462,Bubak Blasters,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
 39614469,Hameed Khan,9726488,Kot Bahadur Shah Bulls,3,0,,,,0.00,0.00,0,0,0,-,0.0,0
 40436118,Muhammad Usman Liaquat,9726458,Fazilpur Falcons,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+44469557,Ali Mehenti,9726471,Keamari Kings,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46284757,Zeeshan Tahir,9726462,Bubak Blasters,5,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46284761,Aqib Muneer,9726462,Bubak Blasters,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46284762,Muhammad Yousuf,9726462,Bubak Blasters,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46284764,Abdemunaf Kalimee,9726462,Bubak Blasters,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46284762,Muhammad Yousuf,9726462,Bubak Blasters,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46284764,Abdemunaf Kalimee,9726462,Bubak Blasters,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46284765,Muhammad Qasim,9726462,Bubak Blasters,3,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46284956,Muhammad Kashif Khan,9726452,Shikarpur Stallions,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46284956,Muhammad Kashif Khan,9726452,Shikarpur Stallions,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46284958,Rana Ahmed Ashraf,9726452,Shikarpur Stallions,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46284961,Muhammad Shoaib,9726452,Shikarpur Stallions,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46284962,Muhammad Riaz Ahmed,9726452,Shikarpur Stallions,3,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46284962,Muhammad Riaz Ahmed,9726452,Shikarpur Stallions,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46284963,Hassaan Bin Sultan,9726452,Shikarpur Stallions,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46284964,Muhammad Maroof Hussain,9726452,Shikarpur Stallions,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46284965,Umair Abdul Moqeet,9726452,Shikarpur Stallions,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46285106,Muneeb Ul Hassan,9726479,Port Qasim Panthers,5,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46284964,Muhammad Maroof Hussain,9726452,Shikarpur Stallions,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46284965,Umair Abdul Moqeet,9726452,Shikarpur Stallions,3,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46285106,Muneeb Ul Hassan,9726479,Port Qasim Panthers,6,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46285107,Fahim Wahid Motiwala,9726479,Port Qasim Panthers,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46285110,Rahul Kumar,9726479,Port Qasim Panthers,5,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46285111,Muhammad Sohaib Asghar,9726479,Port Qasim Panthers,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46285110,Rahul Kumar,9726479,Port Qasim Panthers,6,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46285111,Muhammad Sohaib Asghar,9726479,Port Qasim Panthers,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46285376,Shayan Baig,9726458,Fazilpur Falcons,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46285377,Muhammad Izaan Khan,9726458,Fazilpur Falcons,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46285379,Tahir Mahmood,9726458,Fazilpur Falcons,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46285379,Tahir Mahmood,9726458,Fazilpur Falcons,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46285380,Mudassir Ali,9726458,Fazilpur Falcons,3,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46285381,Shah Muhammad,9726458,Fazilpur Falcons,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46285384,Shahzad Ur Rehman,9726458,Fazilpur Falcons,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46285590,Syed Ammar Hassan,9726471,Keamari Kings,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46285759,Hamid Nasir,9726488,Kot Bahadur Shah Bulls,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46285763,Kashif Sultan,9726488,Kot Bahadur Shah Bulls,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46285760,Muhammad Bilal Habib,9726488,Kot Bahadur Shah Bulls,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46285763,Kashif Sultan,9726488,Kot Bahadur Shah Bulls,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46285764,Danish Khan Sherwani,9726488,Kot Bahadur Shah Bulls,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46285765,Malik Waqas,9726488,Kot Bahadur Shah Bulls,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46285767,Muhammad Bilal,9726488,Kot Bahadur Shah Bulls,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46285999,Irteza Ali Qureshi,9726435,Mahmoodkot Mavericks,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
 46286000,Fraz Asif,9726435,Mahmoodkot Mavericks,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46286003,Shirjeel Agha,9726435,Mahmoodkot Mavericks,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46286005,Syed Saaduddin Adil,9726435,Mahmoodkot Mavericks,2,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
-46441658,M Owais,9726448,Macchike Mustangs,5,0,,,,0.00,0.00,0,0,0,-,0.0,0
-46613703,M Aurangzeb Muzammil Khan,9726452,Shikarpur Stallions,5,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46286003,Shirjeel Agha,9726435,Mahmoodkot Mavericks,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46286005,Syed Saaduddin Adil,9726435,Mahmoodkot Mavericks,3,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+46286006,Shahmir,9726435,Mahmoodkot Mavericks,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46286127,Abid Ali Askari,9726448,Macchike Mustangs,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46441658,M Owais,9726448,Macchike Mustangs,7,0,,,,0.00,0.00,0,0,0,-,0.0,0
+46613703,M Aurangzeb Muzammil Khan,9726452,Shikarpur Stallions,6,0,,,,0.00,0.00,0,0,0,-,0.0,0
